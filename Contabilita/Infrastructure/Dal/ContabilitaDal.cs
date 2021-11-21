@@ -37,12 +37,23 @@ namespace Infrastructure.Dal
             }
         }
 
-        public async Task<bool> SaveAziendaAsync(Azienda azienda)
+        public async Task<bool> SaveAziendaAsync(Azienda azienda, TipoCrud tipoCrud)
         {
             _logger.LogInformation("GetAziende START");
             try
             {
-                await _context.Aziende.AddAsync(azienda);
+                switch (tipoCrud)
+                {
+                    case TipoCrud.insert:
+                        await _context.Aziende.AddAsync(azienda);
+                        break;
+                    case TipoCrud.update:
+                        _context.Entry(azienda).State = EntityState.Modified;
+                        break;
+                    case TipoCrud.delete:
+                        _context.Aziende.Remove(azienda);
+                        break;
+                }
                 return await _context.SaveChangesAsync() == 1;
             }
             catch (Exception ex)
