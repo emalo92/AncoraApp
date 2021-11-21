@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,11 @@ namespace Infrastructure.Dal
 {
     public interface IContabilitaDal
     {
+        /// <summary>
+        /// Metodo che restituisce tutte le aziende presenti nella tabella Aziende
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Azienda>> GetAllAziendeAsync();
+        Task<bool> SaveAziendaAsync(Azienda azienda);
     }
 }

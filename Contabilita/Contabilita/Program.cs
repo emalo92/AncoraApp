@@ -47,6 +47,7 @@ namespace Contabilita
             var dalStrartup = new Infrastructure.Startup(Configuration);
             dalStrartup.ConfigureServices(services, connectionString);
             services.AddDbContext<ContabilitaDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddAutoMapper(typeof(Program));
             services.AddLogging(option =>
             {
                 option.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Debug);
