@@ -14,6 +14,6 @@ namespace Infrastructure.Dal
         /// </summary>
         /// <returns></returns>
         Task<List<Azienda>> GetAllAziendeAsync();
-        Task<bool> SaveAziendaAsync(Azienda azienda);
+        Task<bool> SaveAziendaAsync(Azienda azienda, TipoCrud tipoCrud);
     }
 }
