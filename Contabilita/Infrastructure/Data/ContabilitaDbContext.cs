@@ -19,7 +19,16 @@ namespace Infrastructure.Data
 
         public virtual DbSet<Azienda> Aziende { get; set; } = null!;
         public virtual DbSet<Fattura> Fatture { get; set; } = null!;
-        public virtual DbSet<Movimento> Movimenti { get; set; } = null!;
+        public virtual DbSet<Pagamento> Pagamenti { get; set; } = null!;
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("data source=.; initial catalog = Contabilita; persist security info=True; Integrated Security = SSPI;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +36,14 @@ namespace Infrastructure.Data
             {
                 entity.HasIndex(e => e.PartitaIva, "IX_Azienda")
                     .IsUnique();
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Iban)
+                    .HasMaxLength(30)
+                    .IsFixedLength();
 
                 entity.Property(e => e.PartitaIva)
                     .HasMaxLength(11)
@@ -36,6 +53,10 @@ namespace Infrastructure.Data
                 entity.Property(e => e.RagioneSociale)
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Telefono)
+                    .HasMaxLength(20)
+                    .IsFixedLength();
             });
 
             modelBuilder.Entity<Fattura>(entity =>
@@ -54,7 +75,11 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Numero)
                     .HasMaxLength(20)
-                    .IsUnicode(false);
+                    .IsFixedLength();
+
+                entity.Property(e => e.Tipo)
+                    .HasMaxLength(20)
+                    .IsFixedLength();
 
                 entity.HasOne(d => d.AziendaNavigation)
                     .WithMany(p => p.Fatturas)
@@ -64,13 +89,15 @@ namespace Infrastructure.Data
                     .HasConstraintName("FK_Fattura_Azienda");
             });
 
-            modelBuilder.Entity<Movimento>(entity =>
+            modelBuilder.Entity<Pagamento>(entity =>
             {
-                entity.ToTable("Movimento");
+                entity.ToTable("Pagamento");
 
                 entity.Property(e => e.Azienda)
                     .HasMaxLength(11)
                     .IsFixedLength();
+
+                entity.Property(e => e.Data).HasColumnType("date");
 
                 entity.Property(e => e.Descrizione)
                     .HasMaxLength(250)
@@ -78,12 +105,16 @@ namespace Infrastructure.Data
 
                 entity.Property(e => e.Importo).HasColumnType("decimal(18, 0)");
 
-                entity.Property(e => e.Tipo)
+                entity.Property(e => e.Modalita)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.NumAssegnoBonifico)
+                    .HasMaxLength(20)
+                    .IsFixedLength();
+
                 entity.HasOne(d => d.AziendaNavigation)
-                    .WithMany(p => p.Movimentos)
+                    .WithMany(p => p.Pagamentos)
                     .HasPrincipalKey(p => p.PartitaIva)
                     .HasForeignKey(d => d.Azienda)
                     .OnDelete(DeleteBehavior.ClientSetNull)

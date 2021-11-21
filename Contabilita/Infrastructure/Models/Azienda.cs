@@ -8,14 +8,17 @@ namespace Infrastructure.Models
         public Azienda()
         {
             Fatturas = new HashSet<Fattura>();
-            Movimentos = new HashSet<Movimento>();
+            Pagamentos = new HashSet<Pagamento>();
         }
 
         public int Id { get; set; }
         public string PartitaIva { get; set; } = null!;
         public string RagioneSociale { get; set; } = null!;
+        public string? Telefono { get; set; }
+        public string? Email { get; set; }
+        public string? Iban { get; set; }
 
         public virtual ICollection<Fattura> Fatturas { get; set; }
-        public virtual ICollection<Movimento> Movimentos { get; set; }
+        public virtual ICollection<Pagamento> Pagamentos { get; set; }
     }
 }

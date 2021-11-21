@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 namespace Infrastructure.Models
 {
-    public partial class Movimento
+    public partial class Pagamento
     {
         public int Id { get; set; }
-        public string Tipo { get; set; } = null!;
+        public string Modalita { get; set; } = null!;
+        public DateTime Data { get; set; }
         public decimal Importo { get; set; }
+        public string? NumAssegnoBonifico { get; set; }
         public string? Descrizione { get; set; }
         public string Azienda { get; set; } = null!;
 
