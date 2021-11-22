@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Contabilita
 {
-    public partial class MainForm : Form
+    public partial class MainForm : ParentForm
     {
         public readonly IContabilitaDal _contabilitaDal;
         public readonly ILogger<MainForm> logger;
