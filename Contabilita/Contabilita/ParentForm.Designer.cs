@@ -30,19 +30,19 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nuovoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ricercaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferenzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chiudiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inserisciToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aziendaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fatturaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notaDiCreditoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pagamentoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.preferenzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chiudiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modificaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aziendaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.fatturaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.notaDiCreditoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pagamentoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ricercaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.visualizzaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aziendeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.movimentiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,9 +53,9 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.nuovoToolStripMenuItem,
-            this.ricercaToolStripMenuItem,
-            this.ricercaToolStripMenuItem1,
+            this.inserisciToolStripMenuItem,
+            this.modificaToolStripMenuItem,
+            this.visualizzaToolStripMenuItem,
             this.reportToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -72,27 +72,28 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // nuovoToolStripMenuItem
+            // preferenzeToolStripMenuItem
             // 
-            this.nuovoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.preferenzeToolStripMenuItem.Name = "preferenzeToolStripMenuItem";
+            this.preferenzeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.preferenzeToolStripMenuItem.Text = "Preferenze";
+            // 
+            // chiudiToolStripMenuItem
+            // 
+            this.chiudiToolStripMenuItem.Name = "chiudiToolStripMenuItem";
+            this.chiudiToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.chiudiToolStripMenuItem.Text = "Chiudi";
+            // 
+            // inserisciToolStripMenuItem
+            // 
+            this.inserisciToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aziendaToolStripMenuItem,
             this.fatturaToolStripMenuItem,
             this.notaDiCreditoToolStripMenuItem,
             this.pagamentoToolStripMenuItem});
-            this.nuovoToolStripMenuItem.Name = "nuovoToolStripMenuItem";
-            this.nuovoToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.nuovoToolStripMenuItem.Text = "Inserisci";
-            // 
-            // ricercaToolStripMenuItem
-            // 
-            this.ricercaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aziendaToolStripMenuItem1,
-            this.fatturaToolStripMenuItem1,
-            this.notaDiCreditoToolStripMenuItem1,
-            this.pagamentoToolStripMenuItem1});
-            this.ricercaToolStripMenuItem.Name = "ricercaToolStripMenuItem";
-            this.ricercaToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
-            this.ricercaToolStripMenuItem.Text = "Modifica";
+            this.inserisciToolStripMenuItem.Name = "inserisciToolStripMenuItem";
+            this.inserisciToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.inserisciToolStripMenuItem.Text = "Inserisci";
             // 
             // aziendaToolStripMenuItem
             // 
@@ -118,17 +119,16 @@
             this.pagamentoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pagamentoToolStripMenuItem.Text = "Pagamento";
             // 
-            // preferenzeToolStripMenuItem
+            // modificaToolStripMenuItem
             // 
-            this.preferenzeToolStripMenuItem.Name = "preferenzeToolStripMenuItem";
-            this.preferenzeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.preferenzeToolStripMenuItem.Text = "Preferenze";
-            // 
-            // chiudiToolStripMenuItem
-            // 
-            this.chiudiToolStripMenuItem.Name = "chiudiToolStripMenuItem";
-            this.chiudiToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.chiudiToolStripMenuItem.Text = "Chiudi";
+            this.modificaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aziendaToolStripMenuItem1,
+            this.fatturaToolStripMenuItem1,
+            this.notaDiCreditoToolStripMenuItem1,
+            this.pagamentoToolStripMenuItem1});
+            this.modificaToolStripMenuItem.Name = "modificaToolStripMenuItem";
+            this.modificaToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+            this.modificaToolStripMenuItem.Text = "Modifica";
             // 
             // aziendaToolStripMenuItem1
             // 
@@ -154,14 +154,14 @@
             this.pagamentoToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.pagamentoToolStripMenuItem1.Text = "Pagamento";
             // 
-            // ricercaToolStripMenuItem1
+            // visualizzaToolStripMenuItem
             // 
-            this.ricercaToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.visualizzaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aziendeToolStripMenuItem,
             this.movimentiToolStripMenuItem});
-            this.ricercaToolStripMenuItem1.Name = "ricercaToolStripMenuItem1";
-            this.ricercaToolStripMenuItem1.Size = new System.Drawing.Size(69, 20);
-            this.ricercaToolStripMenuItem1.Text = "Visualizza";
+            this.visualizzaToolStripMenuItem.Name = "visualizzaToolStripMenuItem";
+            this.visualizzaToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.visualizzaToolStripMenuItem.Text = "Visualizza";
             // 
             // aziendeToolStripMenuItem
             // 
@@ -203,17 +203,17 @@
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem preferenzeToolStripMenuItem;
         private ToolStripMenuItem chiudiToolStripMenuItem;
-        private ToolStripMenuItem nuovoToolStripMenuItem;
+        private ToolStripMenuItem inserisciToolStripMenuItem;
         private ToolStripMenuItem aziendaToolStripMenuItem;
         private ToolStripMenuItem fatturaToolStripMenuItem;
         private ToolStripMenuItem notaDiCreditoToolStripMenuItem;
         private ToolStripMenuItem pagamentoToolStripMenuItem;
-        private ToolStripMenuItem ricercaToolStripMenuItem;
+        private ToolStripMenuItem modificaToolStripMenuItem;
         private ToolStripMenuItem aziendaToolStripMenuItem1;
         private ToolStripMenuItem fatturaToolStripMenuItem1;
         private ToolStripMenuItem notaDiCreditoToolStripMenuItem1;
         private ToolStripMenuItem pagamentoToolStripMenuItem1;
-        private ToolStripMenuItem ricercaToolStripMenuItem1;
+        private ToolStripMenuItem visualizzaToolStripMenuItem;
         private ToolStripMenuItem aziendeToolStripMenuItem;
         private ToolStripMenuItem movimentiToolStripMenuItem;
         private ToolStripMenuItem reportToolStripMenuItem;
