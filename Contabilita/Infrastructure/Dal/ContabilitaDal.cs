@@ -36,6 +36,34 @@ namespace Infrastructure.Dal
                 throw;
             }
         }
+        public async Task<List<Fattura>> GetAllFattureAsync()
+        {
+            _logger.LogInformation("GetFattura START");
+            try
+            {
+                var fatture = await _context.Fatture.AsNoTracking().ToListAsync();
+                return fatture;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetFattura:" + ex.Message);
+                throw;
+            }
+        }
+        public async Task<List<Pagamento>> GetAllPagamentiAsync()
+        {
+            _logger.LogInformation("GetPagamento START");
+            try
+            {
+                var pagamenti = await _context.Pagamenti.AsNoTracking().ToListAsync();
+                return pagamenti;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetPagamento:" + ex.Message);
+                throw;
+            }
+        }
 
         public async Task<bool> SaveAziendaAsync(Azienda azienda, TipoCrud tipoCrud)
         {

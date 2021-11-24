@@ -14,6 +14,8 @@ namespace Infrastructure.Dal
         /// </summary>
         /// <returns></returns>
         Task<List<Azienda>> GetAllAziendeAsync();
+        Task<List<Fattura>> GetAllFattureAsync();
+        Task<List<Pagamento>> GetAllPagamentiAsync();
         Task<bool> SaveAziendaAsync(Azienda azienda, TipoCrud tipoCrud);
     }
 }
