@@ -11,9 +11,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ContabilitaWeb</a>
+                <a class="navbar-brand text-warning" asp-area="" asp-controller="Home" asp-action="Index">ContabilitaWeb</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,10 +21,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Azienda" asp-action="ViewAll">Aziende</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Fattura" asp-action="ViewAll">Fatture</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Pagamento" asp-action="ViewAll">Pagamenti</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="x" asp-action="x">Movimenti</a>
                         </li>
                     </ul>
                 </div>
@@ -33,7 +42,36 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            <partial name="_MessageResponse" />
+            <partial name="_CustomModalConfirm" />
+            <partial name="_CustomModalAlert" />
+            <div class="row">
+                @{string colonna = "container";
+                    var nomeController = ViewContext.RouteData.Values["controller"] == null ? "" : ViewContext.RouteData.Values["controller"]?.ToString();
+                }
+
+                @if (ViewContext.RouteData.Values["controller"] != null && nomeController != "Home")
+                {
+                    colonna = "col-8";
+                    switch (nomeController)
+                    {
+                        case "Azienda": <partial name="_SidebarAzienda" />; break;
+                        case "Fattura": <partial name="_SidebarFattura" />; break;
+                        case "Pagamento": <partial name="_SidebarPagamento" />; break;
+                    }
+                }
+            <div class="@colonna">
+                <div id="divPageLoading" class="positionFixed" style="display:none">
+                    <div class="loading-content">
+                        <div class="spinner-border " role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        Loading...
+                    </div>
+                </div>
+                @RenderBody()
+            </div>
+            </div>
         </main>
     </div>
 

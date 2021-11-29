@@ -93,7 +93,7 @@ namespace Infrastructure.Dal
             }
         }
 
-        public async Task<Fattura> GetFatturaAsync(string numero, DateTime data) 
+        public async Task<Fattura> GetFatturaAsync(string numero, DateTime? data) 
         {
             _logger.LogInformation("GetFattura START");
             try
