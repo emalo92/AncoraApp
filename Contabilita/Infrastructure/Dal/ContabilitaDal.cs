@@ -93,7 +93,7 @@ namespace Infrastructure.Dal
             }
         }
 
-        public async Task<Fattura> GetFatturaAsync(string numero) 
+        public async Task<Fattura> GetFatturaAsync(string numero, DateTime data) 
         {
             _logger.LogInformation("GetFattura START");
             try
@@ -102,6 +102,10 @@ namespace Infrastructure.Dal
                 if (numero != null) 
                 { 
                     fatturaQuery = fatturaQuery.Where(Fattura => Fattura.Numero == numero);
+                }
+                if (data != null) 
+                {
+                    fatturaQuery = fatturaQuery.Where(Fattura => Fattura.Data == data);
                 }
                 var fattura = await fatturaQuery.FirstOrDefaultAsync();
                 if (fattura == null) 
