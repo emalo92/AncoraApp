@@ -65,6 +65,59 @@ namespace Infrastructure.Dal
             }
         }
 
+        public async Task<Azienda> GetAziendaAsync(string partitaIva,string ragioneSociale)
+        {
+            _logger.LogInformation("GetAzienda START");
+            try 
+            {
+                var aziendaQuery = _context.Aziende.AsNoTracking().AsQueryable();
+                if (partitaIva != null)
+                {
+                    aziendaQuery = aziendaQuery.Where(Azienda => Azienda.PartitaIva == partitaIva);
+                }
+                if (ragioneSociale != null)
+                {
+                    aziendaQuery = aziendaQuery.Where(Azienda => Azienda.RagioneSociale == ragioneSociale);
+                }
+                var azienda = await aziendaQuery.FirstOrDefaultAsync();
+                if (azienda == null)
+                {
+                    throw new Exception($"azienda in null for partitaIva:{partitaIva},ragioneSociale:{ragioneSociale}");
+                }
+                return azienda;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetAzienda:" + ex.Message);
+                throw;
+            }
+        }
+
+        public async Task<Fattura> GetFatturaAsync(string numero) 
+        {
+            _logger.LogInformation("GetFattura START");
+            try
+            {
+                var fatturaQuery = _context.Fatture.AsNoTracking().AsQueryable();
+                if (numero != null) 
+                { 
+                    fatturaQuery = fatturaQuery.Where(Fattura => Fattura.Numero == numero);
+                }
+                var fattura = await fatturaQuery.FirstOrDefaultAsync();
+                if (fattura == null) 
+                {
+                    throw new Exception($"fattura in null for numero:{numero}");
+                }
+                return fattura;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetFattura:" + ex.Message);
+                throw;
+            }
+
+        }
+
         public async Task<bool> SaveAziendaAsync(Azienda azienda, TipoCrud tipoCrud)
         {
             _logger.LogInformation("GetAziende START");
@@ -90,5 +143,56 @@ namespace Infrastructure.Dal
                 throw;
             }
         }
+        public async Task<bool> SaveFatturaAsync(Fattura fattura, TipoCrud tipoCrud)
+        {
+            _logger.LogInformation("GetFatture START");
+            try
+            {
+                switch (tipoCrud)
+                {
+                    case TipoCrud.insert:
+                        await _context.Fatture.AddAsync(fattura);
+                        break;
+                    case TipoCrud.update:
+                        _context.Entry(fattura).State = EntityState.Modified;
+                        break;
+                    case TipoCrud.delete:
+                        _context.Fatture.Remove(fattura);
+                        break;
+                }
+                return await _context.SaveChangesAsync() == 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetFatture:" + ex.Message);
+                throw;
+            }
+        }
+        public async Task<bool> SavePagamentoAsync(Pagamento pagamento, TipoCrud tipoCrud)
+        {
+            _logger.LogInformation("GetPagamenti START");
+            try
+            {
+                switch (tipoCrud)
+                {
+                    case TipoCrud.insert:
+                        await _context.Pagamenti.AddAsync(pagamento);
+                        break;
+                    case TipoCrud.update:
+                        _context.Entry(pagamento).State = EntityState.Modified;
+                        break;
+                    case TipoCrud.delete:
+                        _context.Pagamenti.Remove(pagamento);
+                        break;
+                }
+                return await _context.SaveChangesAsync() == 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Getpagamenti:" + ex.Message);
+                throw;
+            }
+        }
+
     }
 }
