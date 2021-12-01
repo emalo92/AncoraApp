@@ -19,7 +19,8 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 
 
-var connectionString = builder.Configuration.GetConnectionString("Contabilita");
+//var connectionString = builder.Configuration.GetConnectionString("Contabilita");
+var connectionString = builder.Configuration.GetSection("ConnectionString:Contabilita").Value;
 
 var dalStrartup = new Infrastructure.Startup(builder.Configuration);
 dalStrartup.ConfigureServices(builder.Services, connectionString);

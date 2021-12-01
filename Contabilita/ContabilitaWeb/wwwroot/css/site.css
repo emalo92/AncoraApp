@@ -72,11 +72,11 @@ button.accept-policy {
 /* Css old site
 -------------------------------------------------- */
 /****Loader****/
-.positionFixed {
-    height: 100%;
-    width: 100%;
+.positionFixed
+{ 
     position: fixed;
-    z-index: 500;
-    top: 0;
-    left: 0;
+    z-index: 1031;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

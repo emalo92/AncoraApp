@@ -32,10 +32,11 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetAziende:" + ex.Message);
+                _logger.LogError("GetAziende: " + ex.Message);
                 throw;
             }
         }
+
         public async Task<List<Fattura>> GetAllFattureAsync()
         {
             _logger.LogInformation("GetFattura START");
@@ -46,10 +47,11 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetFattura:" + ex.Message);
+                _logger.LogError("GetFattura: " + ex.Message);
                 throw;
             }
         }
+
         public async Task<List<Pagamento>> GetAllPagamentiAsync()
         {
             _logger.LogInformation("GetPagamento START");
@@ -60,7 +62,7 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetPagamento:" + ex.Message);
+                _logger.LogError("GetPagamento: " + ex.Message);
                 throw;
             }
         }
@@ -82,13 +84,13 @@ namespace Infrastructure.Dal
                 var azienda = await aziendaQuery.FirstOrDefaultAsync();
                 if (azienda == null)
                 {
-                    throw new Exception($"azienda in null for partitaIva:{partitaIva},ragioneSociale:{ragioneSociale}");
+                    throw new Exception($"azienda in null for partitaIva: {partitaIva}, ragioneSociale: {ragioneSociale}");
                 }
                 return azienda;
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetAzienda:" + ex.Message);
+                _logger.LogError("GetAzienda: " + ex.Message);
                 throw;
             }
         }
@@ -110,13 +112,13 @@ namespace Infrastructure.Dal
                 var fattura = await fatturaQuery.FirstOrDefaultAsync();
                 if (fattura == null) 
                 {
-                    throw new Exception($"fattura in null for numero:{numero}");
+                    throw new Exception($"fattura in null for numero: {numero}");
                 }
                 return fattura;
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetFattura:" + ex.Message);
+                _logger.LogError("GetFattura: " + ex.Message);
                 throw;
             }
 
@@ -143,10 +145,11 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetAziende:" + ex.Message);
+                _logger.LogError("GetAziende: " + ex.Message);
                 throw;
             }
         }
+
         public async Task<bool> SaveFatturaAsync(Fattura fattura, TipoCrud tipoCrud)
         {
             _logger.LogInformation("GetFatture START");
@@ -168,10 +171,11 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetFatture:" + ex.Message);
+                _logger.LogError("GetFatture: " + ex.Message);
                 throw;
             }
         }
+
         public async Task<bool> SavePagamentoAsync(Pagamento pagamento, TipoCrud tipoCrud)
         {
             _logger.LogInformation("GetPagamenti START");
@@ -193,10 +197,9 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("Getpagamenti:" + ex.Message);
+                _logger.LogError("GetPagamenti: " + ex.Message);
                 throw;
             }
         }
-
     }
 }

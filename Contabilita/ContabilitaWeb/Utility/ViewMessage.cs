@@ -64,7 +64,7 @@ namespace ContabilitaWeb.Utility
             var response = razor.ViewBag.Response;
             if (response == null)
                 return null;
-            return response is Response ? response : new Response { IsSucces = response.IsSucces , Message = response.Message }; 
+            return response is Response ? response : new Response { IsSuccess = response.IsSucces , Message = response.Message }; 
         }
     }
 }
