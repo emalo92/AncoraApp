@@ -27,7 +27,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("GetAziende START");
             try
             {
-                var aziende = await _context.Aziende.AsNoTracking().ToListAsync();
+                var aziende = await _context.Azienda.AsNoTracking().ToListAsync();
                 return aziende;
             }
             catch (Exception ex)
@@ -42,7 +42,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("GetFattura START");
             try
             {
-                var fatture = await _context.Fatture.AsNoTracking().ToListAsync();
+                var fatture = await _context.Fattura.AsNoTracking().ToListAsync();
                 return fatture;
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("GetPagamento START");
             try
             {
-                var pagamenti = await _context.Pagamenti.AsNoTracking().ToListAsync();
+                var pagamenti = await _context.Pagamento.AsNoTracking().ToListAsync();
                 return pagamenti;
             }
             catch (Exception ex)
@@ -72,7 +72,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("GetAzienda START");
             try 
             {
-                var aziendaQuery = _context.Aziende.AsNoTracking().AsQueryable();
+                var aziendaQuery = _context.Azienda.AsNoTracking().AsQueryable();
                 if (partitaIva != null)
                 {
                     aziendaQuery = aziendaQuery.Where(Azienda => Azienda.PartitaIva == partitaIva);
@@ -100,7 +100,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("GetFattura START");
             try
             {
-                var fatturaQuery = _context.Fatture.AsNoTracking().AsQueryable();
+                var fatturaQuery = _context.Fattura.AsNoTracking().AsQueryable();
                 if (numero != null) 
                 { 
                     fatturaQuery = fatturaQuery.Where(Fattura => Fattura.Numero == numero);
@@ -132,13 +132,13 @@ namespace Infrastructure.Dal
                 switch (tipoCrud)
                 {
                     case TipoCrud.insert:
-                        await _context.Aziende.AddAsync(azienda);
+                        await _context.Azienda.AddAsync(azienda);
                         break;
                     case TipoCrud.update:
                         _context.Entry(azienda).State = EntityState.Modified;
                         break;
                     case TipoCrud.delete:
-                        _context.Aziende.Remove(azienda);
+                        _context.Azienda.Remove(azienda);
                         break;
                 }
                 return await _context.SaveChangesAsync() == 1;
@@ -158,13 +158,13 @@ namespace Infrastructure.Dal
                 switch (tipoCrud)
                 {
                     case TipoCrud.insert:
-                        await _context.Fatture.AddAsync(fattura);
+                        await _context.Fattura.AddAsync(fattura);
                         break;
                     case TipoCrud.update:
                         _context.Entry(fattura).State = EntityState.Modified;
                         break;
                     case TipoCrud.delete:
-                        _context.Fatture.Remove(fattura);
+                        _context.Fattura.Remove(fattura);
                         break;
                 }
                 return await _context.SaveChangesAsync() == 1;
@@ -184,13 +184,13 @@ namespace Infrastructure.Dal
                 switch (tipoCrud)
                 {
                     case TipoCrud.insert:
-                        await _context.Pagamenti.AddAsync(pagamento);
+                        await _context.Pagamento.AddAsync(pagamento);
                         break;
                     case TipoCrud.update:
                         _context.Entry(pagamento).State = EntityState.Modified;
                         break;
                     case TipoCrud.delete:
-                        _context.Pagamenti.Remove(pagamento);
+                        _context.Pagamento.Remove(pagamento);
                         break;
                 }
                 return await _context.SaveChangesAsync() == 1;

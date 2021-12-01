@@ -17,9 +17,9 @@ namespace Infrastructure.Data
         {
         }
 
-        public virtual DbSet<Azienda> Aziende { get; set; } = null!;
-        public virtual DbSet<Fattura> Fatture { get; set; } = null!;
-        public virtual DbSet<Pagamento> Pagamenti { get; set; } = null!;
+        public virtual DbSet<Azienda> Azienda { get; set; } = null!;
+        public virtual DbSet<Fattura> Fattura { get; set; } = null!;
+        public virtual DbSet<Pagamento> Pagamento { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
