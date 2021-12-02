@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ContabilitaWeb.DTO
+namespace ContabilitaWeb.Models
 {
-    public partial class Pagamento
+    public class Fattura
     {
         public int Id { get; set; }
-        public string Modalita { get; set; } = null!;
+        public string Numero { get; set; } = null!;
         public DateTime Data { get; set; }
         public decimal Importo { get; set; }
-        public string? NumAssegnoBonifico { get; set; }
-        public string? Descrizione { get; set; }
+        public string Tipo { get; set; } = null!;
         public string Azienda { get; set; } = null!;
     }
 }

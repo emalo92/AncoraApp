@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ContabilitaWeb.DTO
+namespace ContabilitaWeb.Models
 {
     public class Azienda
     {

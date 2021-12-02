@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ContabilitaWeb.DTO;
+using ContabilitaWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

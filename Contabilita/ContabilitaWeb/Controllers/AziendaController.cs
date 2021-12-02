@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ContabilitaWeb.DTO;
 using ContabilitaWeb.Models;
 using ContabilitaWeb.Utility;
 using Infrastructure.Dal;
