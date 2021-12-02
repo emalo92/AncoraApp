@@ -36,7 +36,8 @@ namespace ContabilitaWeb.Controllers
                     ViewMessage.Show(this, responseFailed);
                     return View();
                 }
-                return View(result);
+                var resultWeb = _mapper.Map<List<Azienda>>(result);
+                return View(resultWeb);
             }
             catch (Exception ex)
             {
@@ -51,15 +52,43 @@ namespace ContabilitaWeb.Controllers
             }
         }
 
-        public IActionResult Inserisci()
+        public IActionResult NewAzienda()
         {
+            _logger.LogInformation("NewAzienda START");
             return View();
         }
 
         [HttpPost]
-        public IActionResult Inserisci(Azienda azienda)
+        public async Task<IActionResult> NewAziendaAsync(Azienda azienda)
         {
-            return View();
+            _logger.LogInformation("NewAziendaAsync START");
+            try
+            {
+                if (azienda == null)
+                {
+                    throw new Exception("azienda is null");
+                }
+                var aziendaInfr = _mapper.Map<Infrastructure.Models.Azienda>(azienda);
+                var result = await _contabilitaDal.SaveAziendaAsync(aziendaInfr, Infrastructure.Models.TipoCrud.insert);
+                var responseSuccess = new Response
+                {
+                    IsSuccess = true,
+                    Message = "Azienda registrata correttamente"
+                };
+                ViewMessage.Show(this, responseSuccess);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("NewAziendaAsync: " + ex.Message);
+                var responseFailed = new Response
+                {
+                    IsSuccess = false,
+                    Message = "Si è verificato un errore durante il salvataggio dell'azienda"
+                };
+                ViewMessage.Show(this, responseFailed);
+                return View();
+            }
         }
     }
 }

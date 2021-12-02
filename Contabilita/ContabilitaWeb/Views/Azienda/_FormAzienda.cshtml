@@ -1,0 +1,45 @@
+﻿@using ContabilitaWeb.Models
+@model Azienda
+
+<div class="row mt-3">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="form-floating mb-3">
+            <input id="idInputPIVA" type="text" asp-for="PartitaIva" class="form-control" placeholder="Partita IVA">
+            <label asp-for="PartitaIva"></label>
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="form-floating">
+            <input id="idInputRagioneSociale" type="text" asp-for="RagioneSociale" class="form-control" placeholder="Ragione sociale">
+            <label asp-for="RagioneSociale"></label>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <div class="form-floating">
+            <input id="idInputEmail" type="text" asp-for="Email" class="form-control" placeholder="Email">
+            <label asp-for="Email"></label>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <div class="form-floating">
+            <input id="idInputTelefono" type="text" asp-for="Telefono" class="form-control" placeholder="Telefono">
+            <label asp-for="Telefono"></label>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <div class="form-floating">
+            <input id="idInputIban" type="text" asp-for="Iban" class="form-control" placeholder="Iban">
+            <label asp-for="Iban"></label>
+        </div>
+    </div>
+</div>
+<div class="row mt-3 text-end">
+    <div class="col-12">
+        <label id="btnRegistraAzienda" class="me-3">
+            <button type="button" class="btn btn-success" title="Registra l'azienda inserita" onclick="RegistraAzienda()"><i class="fa fa-save"></i> Registra </button>
+        </label>
+        <label id="btnEliminaAzienda" class="me-3" style="display:inline">
+            <button type="button" class="btn btn-danger" title="Elimina l'azienda visualizzata'" onclick="EliminaAzienda()"><i class="fa fa-trash"></i> Elimina</button>
+        </label>
+    </div>
+</div>

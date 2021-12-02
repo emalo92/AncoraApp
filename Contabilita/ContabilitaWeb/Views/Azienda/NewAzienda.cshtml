@@ -1,0 +1,33 @@
+﻿@using ContabilitaWeb.Models
+@model Azienda
+
+<h3 class="text-center">Nuova Azienda</h3>
+
+<section>
+    <div class="p-2 bg-light shadow">
+        <form id="FormNewAzienda" method="post" action="NewAzienda" autocomplete="off">
+            <partial name="_FormAzienda" model="Model"/>
+        </form>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function RegistraAzienda() {
+        var partitaIVA = $("#idInputPIVA").val();
+        var ragioneSociale = $("#idInputRagioneSociale").val();
+        if (partitaIVA == null || partitaIVA == "" || partitaIVA == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "La partita IVA è obbligatoria");
+            return;
+        }
+        if (ragioneSociale == null || ragioneSociale == "" || ragioneSociale == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "La ragione sociale è obbligatoria");
+            return;
+        }
+        var form = $("#FormNewAzienda");
+        form.submit();
+    }
+
+    function EliminaAzienda() {
+        return;
+    }
+</script>
