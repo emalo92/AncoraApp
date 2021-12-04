@@ -90,5 +90,47 @@ namespace ContabilitaWeb.Controllers
                 return View();
             }
         }
+
+        public IActionResult EditAzienda()
+        {
+            _logger.LogInformation("EditAzienda START");
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAziendaAsync(Azienda azienda, TipoCrud tipoCrud)
+        {
+            _logger.LogInformation("EditAziendaAsync START");
+            try
+            {
+                if (azienda == null)
+                {
+                    throw new Exception("azienda is null");
+                }
+                var aziendaInfr = _mapper.Map<Infrastructure.Models.Azienda>(azienda);
+                var tipoCrudInfr = _mapper.Map<Infrastructure.Models.TipoCrud>(tipoCrud);
+                var result = await _contabilitaDal.SaveAziendaAsync(aziendaInfr, tipoCrudInfr);
+                var message = tipoCrud == TipoCrud.update ? "modificata" : "eliminata";
+                var responseSuccess = new Response
+                {
+                    IsSuccess = true,
+                    Message = $"Azienda {message} correttamente"
+                };
+                ViewMessage.Show(this, responseSuccess);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("EditAziendaAsync: " + ex.Message);
+                var message = tipoCrud == TipoCrud.update ? "la modifica" : "l'eliminazione";
+                var responseFailed = new Response
+                {
+                    IsSuccess = false,
+                    Message = $"Si è verificato un errore durante {message} dell'azienda"
+                };
+                ViewMessage.Show(this, responseFailed);
+                return View();
+            }
+        }
     }
 }

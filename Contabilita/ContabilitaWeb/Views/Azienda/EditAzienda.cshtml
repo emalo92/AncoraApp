@@ -1,0 +1,59 @@
+﻿@using ContabilitaWeb.Models
+@model Azienda
+
+<h3 class="text-center">Modifica Azienda</h3>
+
+<section>
+    <div class="p-2 bg-light shadow">
+        <div class="row mt-3 mb-3">
+            <div class="col-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Seleziona l'azienda da modificare">
+                    <div class="input-group-append">
+                        <div class="dropdown">
+                            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onclick="ViewAllAziende()">
+                                Seleziona
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-success" type="button" onclick="VerificaAzienda"> Verifica </button>
+            </div>
+        </div>
+    </div>
+    <div class="p-2 bg-light shadow" style="display:none">
+        <form id="FormEditAzienda" method="post" action="EditAzienda" autocomplete="off">
+            <partial name="_FormAzienda" model="Model" />
+        </form>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function RegistraAzienda() {
+        var partitaIVA = $("#idInputPIVA").val();
+        var ragioneSociale = $("#idInputRagioneSociale").val();
+        if (partitaIVA == null || partitaIVA == "" || partitaIVA == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "La partita IVA è obbligatoria");
+            return;
+        }
+        if (ragioneSociale == null || ragioneSociale == "" || ragioneSociale == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "La ragione sociale è obbligatoria");
+            return;
+        }
+        var form = $("#FormEditAzienda?tipoCrud=update");
+        form.submit();
+    }
+
+    function EliminaAzienda() {
+        //myCustamModalConfirmShow();
+        var form = $("#FormEditAzienda");
+        form.attr("action", "EditAzienda?tipoCrud=delete")
+        form.submit();
+    }
+
+    function Annulla() {
+        document.location.href='/Azienda/EditAzienda';
+    }
+</script>
