@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Data;
 using Infrastructure.Models;
+using Infrastructure.Models.Paginations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
@@ -24,7 +25,7 @@ namespace Infrastructure.Dal
 
         public async Task<List<Azienda>> GetAllAziendeAsync()
         {
-            _logger.LogInformation("GetAziende START");
+            _logger.LogInformation("GetAllAziendeAsync START");
             try
             {
                 var aziende = await _context.Azienda.AsNoTracking().ToListAsync();
@@ -32,14 +33,84 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetAziende: " + ex.Message);
+                _logger.LogError("GetAllAziendeAsync: " + ex.Message);
+                throw;
+            }
+        }
+
+        public async Task<ResultPaginated<Azienda>> GetAllAziendeAsync(Pagination pagination)
+        {
+            _logger.LogInformation("GetAllAziendeAsync START");
+            try
+            {
+                var aziende = (await GetAllAziendeAsync()).AsQueryable();
+                string filtro = "";
+                if (pagination != null)
+                {
+                    if (pagination.ParametriRicerca.ContainsKey("PartitaIVA"))
+                    {
+                        filtro = pagination.ParametriRicerca["PartitaIVA"];
+                        aziende = aziende.Where(f => f.PartitaIva.Contains(filtro));
+                    }
+                    if (pagination.ParametriRicerca.ContainsKey("RagioneSociale"))
+                    {
+                        filtro = pagination.ParametriRicerca["RagioneSociale"];
+                        aziende = aziende.Where(f => f.RagioneSociale.Contains(filtro));
+                    }
+                    if (pagination.ParametriRicerca.ContainsKey("Email"))
+                    {
+                        filtro = pagination.ParametriRicerca["Email"];
+                        aziende = aziende.Where(f => f.Email.Contains(filtro));
+                    }
+                    if (pagination.ParametriRicerca.ContainsKey("Telefono"))
+                    {
+                        filtro = pagination.ParametriRicerca["Telefono"];
+                        aziende = aziende.Where(f => f.Telefono.Contains(filtro));
+                    }
+                    if (pagination.ParametriRicerca.ContainsKey("Iban"))
+                    {
+                        filtro = pagination.ParametriRicerca["Iban"];
+                        aziende = aziende.Where(f => f.Iban.Contains(filtro));
+                    }
+
+                    pagination.TotalItems = aziende.Count();
+                    if (pagination.IsPaginated)
+                    {
+                        var skip = (pagination.CurrentPage - 1) * pagination.ItemsPerPage;
+                        aziende = aziende.Skip(skip).Take(pagination.ItemsPerPage);
+                    }
+                }
+                else
+                {
+                    pagination = new Pagination()
+                    {
+                        CurrentPage = 1,
+                        TotalPages = 1,
+                        ItemsPerPage = 0
+                    };
+                }
+                if (pagination.ItemsPerPage > 0)
+                {
+                    pagination.TotalPages = (int)Math.Ceiling(pagination.TotalItems / (decimal)pagination.ItemsPerPage);
+                }
+                var documentList = aziende.ToList();
+                var result = new ResultPaginated<Azienda>
+                {
+                    Pagination = pagination,
+                    Result = documentList
+                };
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetAllAziendeAsync: " + ex.Message);
                 throw;
             }
         }
 
         public async Task<List<Fattura>> GetAllFattureAsync()
         {
-            _logger.LogInformation("GetFattura START");
+            _logger.LogInformation("GetAllFattureAsync START");
             try
             {
                 var fatture = await _context.Fattura.AsNoTracking().ToListAsync();
@@ -47,14 +118,14 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetFattura: " + ex.Message);
+                _logger.LogError("GetAllFattureAsync: " + ex.Message);
                 throw;
             }
         }
 
         public async Task<List<Pagamento>> GetAllPagamentiAsync()
         {
-            _logger.LogInformation("GetPagamento START");
+            _logger.LogInformation("GetAllPagamentiAsync START");
             try
             {
                 var pagamenti = await _context.Pagamento.AsNoTracking().ToListAsync();
@@ -62,14 +133,14 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetPagamento: " + ex.Message);
+                _logger.LogError("GetAllPagamentiAsync: " + ex.Message);
                 throw;
             }
         }
 
         public async Task<Azienda> GetAziendaAsync(string partitaIva,string ragioneSociale)
         {
-            _logger.LogInformation("GetAzienda START");
+            _logger.LogInformation("GetAziendaAsync START");
             try 
             {
                 var aziendaQuery = _context.Azienda.AsNoTracking().AsQueryable();
@@ -90,14 +161,14 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetAzienda: " + ex.Message);
+                _logger.LogError("GetAziendaAsync: " + ex.Message);
                 throw;
             }
         }
 
         public async Task<Fattura> GetFatturaAsync(string numero, DateTime? data) 
         {
-            _logger.LogInformation("GetFattura START");
+            _logger.LogInformation("GetFatturaAsync START");
             try
             {
                 var fatturaQuery = _context.Fattura.AsNoTracking().AsQueryable();
@@ -118,7 +189,7 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetFattura: " + ex.Message);
+                _logger.LogError("GetFatturaAsync: " + ex.Message);
                 throw;
             }
 
@@ -126,7 +197,7 @@ namespace Infrastructure.Dal
 
         public async Task<bool> SaveAziendaAsync(Azienda azienda, TipoCrud tipoCrud)
         {
-            _logger.LogInformation("GetAziende START");
+            _logger.LogInformation("SaveAziendaAsync START");
             try
             {
                 switch (tipoCrud)
@@ -145,14 +216,14 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetAziende: " + ex.Message);
+                _logger.LogError("SaveAziendaAsync: " + ex.Message);
                 throw;
             }
         }
 
         public async Task<bool> SaveFatturaAsync(Fattura fattura, TipoCrud tipoCrud)
         {
-            _logger.LogInformation("GetFatture START");
+            _logger.LogInformation("SaveFatturaAsync START");
             try
             {
                 switch (tipoCrud)
@@ -171,14 +242,14 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetFatture: " + ex.Message);
+                _logger.LogError("SaveFatturaAsync: " + ex.Message);
                 throw;
             }
         }
 
         public async Task<bool> SavePagamentoAsync(Pagamento pagamento, TipoCrud tipoCrud)
         {
-            _logger.LogInformation("GetPagamenti START");
+            _logger.LogInformation("SavePagamentoAsync START");
             try
             {
                 switch (tipoCrud)
@@ -197,7 +268,7 @@ namespace Infrastructure.Dal
             }
             catch (Exception ex)
             {
-                _logger.LogError("GetPagamenti: " + ex.Message);
+                _logger.LogError("SavePagamentoAsync: " + ex.Message);
                 throw;
             }
         }

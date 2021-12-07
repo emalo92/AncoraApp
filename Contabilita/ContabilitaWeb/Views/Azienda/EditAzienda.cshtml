@@ -5,13 +5,13 @@
 
 <section>
     <div class="p-2 bg-light shadow">
-        <div class="row mt-3 mb-3">
+        <div id="divPanelCheck" class="row mt-3 mb-3">
             <div class="col-6">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Seleziona l'azienda da modificare">
+                    <input id="idInputPartitaIvaCheck" type="text" class="form-control" placeholder="Seleziona l'azienda da modificare">
                     <div class="input-group-append">
                         <div class="dropdown">
-                            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onclick="ViewAllAziende()">
+                            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onclick="ShowDynamicViewAllAziende('/Azienda/GetAllAziende')">
                                 Seleziona
                             </button>
                         </div>
@@ -19,16 +19,24 @@
                 </div>
             </div>
             <div class="col-6">
-                <button class="btn btn-success" type="button" onclick="VerificaAzienda"> Verifica </button>
+                <button class="btn btn-success" type="button" onclick="VerificaAzienda()"><i class="fa fa-check"></i> Verifica</button>
             </div>
         </div>
     </div>
-    <div class="p-2 bg-light shadow" style="display:none">
+    <div id="divPanelForm" class="p-2 bg-light shadow" style="display:none">
         <form id="FormEditAzienda" method="post" action="EditAzienda" autocomplete="off">
             <partial name="_FormAzienda" model="Model" />
         </form>
     </div>
 </section>
+
+<div id="Div_DynamicViewAllAziende" class="positionFixed" style="display:none">
+    <div class="finestraPopup">
+        <div id="Div_DynamicView_ContainerAllAziende">
+
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     function RegistraAzienda() {
@@ -42,12 +50,16 @@
             myCustomModalAlertShow("Dati incompleti", "La ragione sociale è obbligatoria");
             return;
         }
-        var form = $("#FormEditAzienda?tipoCrud=update");
+        var form = $("#FormEditAzienda");
+        form.attr("action", "EditAzienda?tipoCrud=update")
         form.submit();
     }
 
     function EliminaAzienda() {
-        //myCustamModalConfirmShow();
+        myCustomModalConfirmShow("Conferma", "Sei sicuro di voler eliminare questa azienda?", DoSubmitData, null, "Si", "No");
+    }
+
+    function DoSubmitData() {
         var form = $("#FormEditAzienda");
         form.attr("action", "EditAzienda?tipoCrud=delete")
         form.submit();
@@ -55,5 +67,88 @@
 
     function Annulla() {
         document.location.href='/Azienda/EditAzienda';
+    }
+
+    function VerificaAzienda() {
+        var partitaIva = $('#idInputPartitaIvaCheck').val();
+        if (partitaIva == "" || partitaIva == undefined || partitaIva == null) {
+            myCustomModalAlertShow("Dati incompleti", "Inserire la partita IVA da verificare");
+            return;
+        }
+        $.ajax({
+            type: "GET",
+            url: "/Azienda/GetAzienda?partitaIva=" + partitaIva,
+            contentType: "application/json",
+            success: function (response) {
+                if (!response.isSucces) {
+                    if (response.message != null && response.message != undefined && response.message != '') {
+                        myCustomModalAlertShow("Dati non validi", response.message);
+                    }
+                    else {
+                        myCustomModalAlertShow("Dati non validi", response);
+                    }
+                }
+                else {
+                    if (response.result == null) {
+                        myCustomModalAlertShow("Attenzione", response.message);
+                    }
+                    else {
+                        $('#divPanelCheck').css('display', 'none');
+                        $("#idInputID").val(response.result.id);
+                        $("#idInputPIVA").val(response.result.partitaIVA);
+                        $("#idInputRagioneSociale").val(response.result.ragioneSociale);
+                        $("#idInputEmail").val(response.result.email);
+                        $("#idInputTelefono").val(response.result.telefono);
+                        $("#idInputIban").val(response.result.iban);
+                        $('#divPanelForm').css('display', 'block');
+                        $('#btnEliminaAzienda').css('display', 'inline');
+                    }
+                }
+            },
+            error(jqXHR, textStatus) {
+                myCustomModalAlertShow("Errore generico", textStatus);
+            }
+        });
+    }
+
+    var callbackGenericTable;  //viene definita in GenericTable
+    var checkOpenGenericTable = "";
+
+    function ShowDynamicViewAllAziende(url) {
+        checkOpenGenericTable = "Aziende";
+        $("#Div_DynamicView_ContainerAllAziende").load(url);
+        $("#Div_DynamicViewAllAziende").show();
+        dispatchOpenPopupCustomEvent('ViewAllAziende');
+        if (callbackGenericTable !== undefined) {
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllAziende), false);
+        }
+    }
+    document.addEventListener('openPopup_CustomEvent', (event) => {
+        if (event.Sender === "GenericTable") {
+            if (checkOpenGenericTable == "Aziende") {
+                call_setContainerGenericTableAziende();
+            }
+        }
+    }, false)
+
+    function call_setContainerGenericTableAziende() {
+        setContainerGenericTable('Div_DynamicViewAllAziende', 'Div_DynamicView_ContainerAllAziende', 'ViewAllAziende', callbackGetValueSelectedAziende);
+    }
+    function callbackGetValueSelectedAziende(selectedValues) {
+        setSelectedValuesAziende(selectedValues);
+    }
+    function setSelectedValuesAziende(values) {
+        if (values == null) {
+            return false;
+        }
+        $('#divPanelCheck').css('display', 'none');
+        $("#idInputID").val(values.Id);
+        $("#idInputPIVA").val(values.PartitaIVA);
+        $("#idInputRagioneSociale").val(values.RagioneSociale);
+        $("#idInputEmail").val(values.Email);
+        $("#idInputTelefono").val(values.Telefono);
+        $("#idInputIban").val(values.Iban);
+        $('#divPanelForm').css('display', 'block');
+        $('#btnEliminaAzienda').css('display', 'inline');
     }
 </script>

@@ -1,0 +1,22 @@
+﻿@using ContabilitaWeb.Utility;
+@* ****** Da usare nelle form modali  *******@
+@{
+    var responseMessage = ViewMessage.GetLocalResponse(this);
+    string classe = "";
+    if(responseMessage != null)
+    {
+        classe = responseMessage.IsSuccess ? "alert-success" : "alert-danger";
+    }
+}
+
+
+@if (responseMessage != null)
+{
+<div class="alert @classe alert-dismissible mt-3" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    </button>
+    @Html.Raw(responseMessage.Message)
+</div>
+}
+
+

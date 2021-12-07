@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Models;
+using Infrastructure.Models.Paginations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace Infrastructure.Dal
         Task<bool> SaveAziendaAsync(Azienda azienda, TipoCrud tipoCrud);
         Task<bool> SaveFatturaAsync(Fattura fattura, TipoCrud tipoCrud);
         Task<bool> SavePagamentoAsync(Pagamento pagamento, TipoCrud tipoCrud);
+        Task<ResultPaginated<Azienda>> GetAllAziendeAsync(Pagination paginationInfr);
     }
 }
 

@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using ContabilitaWeb.Models;
+using ContabilitaWeb.Models.Paginate;
+using ContabilitaWeb.Models.TableToExport;
 using ContabilitaWeb.Utility;
 using Infrastructure.Dal;
 using Microsoft.AspNetCore.Mvc;
+using Route = ContabilitaWeb.Models.Paginate.Route;
 
 namespace ContabilitaWeb.Controllers
 {
@@ -130,6 +133,91 @@ namespace ContabilitaWeb.Controllers
                 };
                 ViewMessage.Show(this, responseFailed);
                 return View();
+            }
+        }
+
+        public async Task<IActionResult> GetAllAziendeAsync(string nameSearchFilter, string valueSearchFilter, int page = 1)
+        {
+            _logger.LogInformation("GetAllAziendeAsync START");
+            var pagination = new Pagination()
+            {
+                CurrentPage = page,
+                ItemsPerPage = 100,
+                ParametriRicerca = new Dictionary<string, dynamic>
+                {
+                },
+                Route = new Route { Controller = "Azienda", Action = "GetAllAziende" },
+                IsPaginated = true
+            };
+            valueSearchFilter = nameSearchFilter != null && valueSearchFilter == null ? "" : valueSearchFilter;
+            if (nameSearchFilter != null)
+            {
+                pagination.ParametriRicerca.Add(nameSearchFilter, valueSearchFilter);
+            }
+            ViewBag.Pagination = pagination;
+
+            var genericTable = new Table()
+            {
+                Title = "Elenco aziende",
+                ColumnNames = new List<string> { "Id", "Partita IVA", "Ragione Sociale", "Email", "Telefono", "Iban" },
+                Elements = new List<List<object>>()
+            };
+            try
+            {
+                var paginationInfr = _mapper.Map<Infrastructure.Models.Paginations.Pagination>(pagination);
+                var responseAppCore = await _contabilitaDal.GetAllAziendeAsync(paginationInfr);
+                var result = _mapper.Map<ResultPaginated<Azienda>>(responseAppCore);
+                if (result == null)
+                {
+                    var responseFailed = new Response
+                    {
+
+                        IsSuccess = false,
+                        Message = "Si è verificato un errore durante il recupero delle aziende ",
+                    };
+                    ViewMessage.ShowLocal(this, responseFailed);
+                    return PartialView("_GenericTable", genericTable);
+                }
+
+                for (var i = 0; i < result.Result.Count; ++i)
+                {
+                    genericTable.Elements.Add(new List<object>());
+                    genericTable.Elements[i].Add(result.Result[i].Id);
+                    genericTable.Elements[i].Add(result.Result[i].PartitaIva);
+                    genericTable.Elements[i].Add(result.Result[i].RagioneSociale);
+                    genericTable.Elements[i].Add(result.Result[i].Email);
+                    genericTable.Elements[i].Add(result.Result[i].Telefono);
+                    genericTable.Elements[i].Add(result.Result[i].Iban);
+                }
+
+                result.Pagination.ParametriRicerca = new Dictionary<string, dynamic> { { "page", page } };
+                if (nameSearchFilter != null && valueSearchFilter != null)
+                {
+                    result.Pagination.ParametriRicerca.Add("nameSearchFilter", nameSearchFilter);
+                    result.Pagination.ParametriRicerca.Add("valueSearchFilter", valueSearchFilter);
+                }
+                result.Pagination.Route = pagination.Route;
+                ViewBag.Pagination = result.Pagination;
+                result.Pagination.JavascriptNavigationMethod = "ShowDynamicViewAllAziende";
+                ViewBag.ExistsValueFilter = true;
+                ViewBag.ParameterNameSearchFilter = "nameSearchFilter";
+                ViewBag.ParameterValueSearchFilter = "valueSearchFilter";
+                ViewBag.LabelSearchFilter = nameSearchFilter ?? "Ragione Sociale";
+                ViewBag.InputSearchFilter = valueSearchFilter ?? "";
+                ViewBag.SizeModal = "modal-xl";
+                return PartialView("_GenericTable", genericTable);
+            }
+            catch (Exception ex)
+            {
+                var responseFailed = new Response
+                {
+                    IsSuccess = false,
+                    Message = "Si è verificato un errore durante il recupero delle aziende",
+                };
+                genericTable.Elements = new List<List<object>>();
+                ViewMessage.ShowLocal(this, responseFailed);
+                _logger.LogError(ex, "GetAllAziendeAsync");
+                return PartialView("_GenericTable", genericTable);
             }
         }
     }
