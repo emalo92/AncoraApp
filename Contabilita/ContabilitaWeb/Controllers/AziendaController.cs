@@ -204,7 +204,7 @@ namespace ContabilitaWeb.Controllers
                 ViewBag.ParameterValueSearchFilter = "valueSearchFilter";
                 ViewBag.LabelSearchFilter = nameSearchFilter ?? "Ragione Sociale";
                 ViewBag.InputSearchFilter = valueSearchFilter ?? "";
-                ViewBag.SizeModal = "modal-xl";
+                ViewBag.SizeModal = "modal-ultraxl";
                 return PartialView("_GenericTable", genericTable);
             }
             catch (Exception ex)

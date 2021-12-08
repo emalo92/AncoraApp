@@ -49,15 +49,19 @@
     .table th {
         border-top: 0px;
     }
-    .table thead th:hover {
+</style>
+
     @if (isFiltered) {
         <text>
-            background-color: #7aa62d !important;
+            <style>
+            .table thead th:hover {
+            background-color: #c6dbf7 !important;
             cursor: pointer;
+            }
+            </style>
         </text>
         }
-     }
-</style>
+
 
 
 <div id="GenericTableId" class="" role="dialog">
@@ -84,7 +88,7 @@
                 </section>
             }
             <div id="GenericTableBody" class="modal-body sizeGenericTable" style="padding:0rem">
-                <table class="table text-nowrap" id="tableId">
+                <table class="table table-striped text-nowrap" id="tableId">
                     <thead class="thead-light" style="position: sticky;top:0;">
                         <tr>
                             @foreach (var columnName in Model.ColumnNames)
