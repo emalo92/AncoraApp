@@ -1,0 +1,37 @@
+﻿@using ContabilitaWeb.Models
+@model Fattura
+
+<h3 class="text-center">Nuova Fattura</h3>
+
+<section>
+    <div class="p-2 bg-light shadow">
+        <form id="FormNewFattura" method="post" action="NewFattura" autocomplete="off">
+            <partial name="_FormFattura" model="Model"/>
+        </form>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function RegistraFattura() {
+        var numero= $("#idInputNum").val();
+        var data = $("#idInputData").val();
+        if (numero == null || numero == "" || numero == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "Il numero è obbligatorio");
+            return;
+        }
+        if (data == null || data == "" || data == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
+            return;
+        }
+        var form = $("#FormNewFattura");
+        form.submit();
+    }
+
+    function Eliminafattura() {
+        return;
+    }
+
+    function Annulla() {
+        document.location.href='/Fattura/NewFattura';
+    }
+</script>

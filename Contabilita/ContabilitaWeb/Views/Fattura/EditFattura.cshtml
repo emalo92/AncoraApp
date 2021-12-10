@@ -1,0 +1,154 @@
+﻿@using ContabilitaWeb.Models
+@model Fattura
+
+<h3 class="text-center">Modifica Fattura</h3>
+
+<section>
+    <div class="p-2 bg-light shadow">
+        <div id="divPanelCheck" class="row mt-3 mb-3">
+            <div class="col-6">
+                <div class="input-group">
+                    <input id="idInputNumeroCheck" type="text" class="form-control" placeholder="Seleziona la Fattura da modificare">
+                    <div class="input-group-append">
+                        <div class="dropdown">
+                            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onclick="ShowDynamicViewAllFatture('/Fattura/GetAllFatture')">
+                                Seleziona
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-success" type="button" onclick="VerificaFattura()"><i class="fa fa-check"></i> Verifica</button>
+            </div>
+        </div>
+    </div>
+    <div id="divPanelForm" class="p-2 bg-light shadow" style="display:none">
+        <form id="FormEditFattura" method="post" action="EditFattura" autocomplete="off">
+            <partial name="_FormFattura" model="Model" />
+        </form>
+    </div>
+</section>
+
+<div id="Div_DynamicViewAllFatture" class="positionFixed" style="display:none">
+    <div class="finestraPopup">
+        <div id="Div_DynamicView_ContainerAllFatture">
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function RegistraFattura() {
+      var numero= $("#idInputNum").val();
+        var data = $("#idInputData").val();
+        if (numero == null || numero == "" || numero == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "Il numero è obbligatorio");
+            return;
+        }
+        if (data == null || data == "" || data == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
+            return;
+        }
+        var form = $("#FormEditFattura");
+        form.attr("action", "EditFattura?tipoCrud=update")
+        form.submit();
+    }
+
+    function EliminaFattura() {
+        myCustomModalConfirmShow("Conferma", "Sei sicuro di voler eliminare questa Fattura?", DoSubmitData, null, "Si", "No");
+    }
+
+    function DoSubmitData() {
+        var form = $("#FormEditFattura");
+        form.attr("action", "EditFattura?tipoCrud=delete")
+        form.submit();
+    }
+
+    function Annulla() {
+        document.location.href='/Fattura/EditFattura';
+    }
+
+    function VerificaFattura() {
+        var numero = $('#idInputNumeroCheck').val();
+        if (numero == null || numero == "" || numero == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "Inserire il Numero da verificare");
+            return;
+        }
+        $.ajax({
+            type: "GET",
+            url: "/Fattura/GetFattura?numero=" + numero,
+            contentType: "application/json",
+            success: function (response) {
+                if (!response.isSucces) {
+                    if (response.message != null && response.message != undefined && response.message != '') {
+                        myCustomModalAlertShow("Dati non validi", response.message);
+                    }
+                    else {
+                        myCustomModalAlertShow("Dati non validi", response);
+                    }
+                }
+                else {
+                    if (response.result == null) {
+                        myCustomModalAlertShow("Attenzione", response.message);
+                    }
+                    else {
+                        $('#divPanelCheck').css('display', 'none');
+                        $("#idInputID").val(response.result.id);
+                        $("#idInputNum").val(response.result.numero);
+                        $("#idInputData").val(response.result.data);
+                        $("#idInputImport").val(response.result.importo);
+                        $("#idInputTipo").val(response.result.tipo);
+                        $("#idInputAziend").val(response.result.azienda);
+                        $('#divPanelForm').css('display', 'block');
+                        $('#btnEliminaFattura').css('display', 'inline');
+                    }
+                }
+            },
+            error(jqXHR, textStatus) {
+                myCustomModalAlertShow("Errore generico", textStatus);
+            }
+        });
+    }
+
+    var callbackGenericTable;  //viene definita in GenericTable
+    var checkOpenGenericTable = "";
+
+    function ShowDynamicViewAllFattura(url) {
+        checkOpenGenericTable = "Fatture";
+        $("#Div_DynamicView_ContainerAllFatture").load(url);
+        $("#Div_DynamicViewAllfatture").show();
+        dispatchOpenPopupCustomEvent('ViewAllFatture');
+        if (callbackGenericTable !== undefined) {
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllFatture), false);
+        }
+    }
+    document.addEventListener('openPopup_CustomEvent', (event) => {
+        if (event.Sender === "GenericTable") {
+            if (checkOpenGenericTable == "Fatture") {
+                call_setContainerGenericTableFatture();
+            }
+        }
+    }, false)
+
+    function call_setContainerGenericTableFatture() {
+        setContainerGenericTable('Div_DynamicViewAllFatture', 'Div_DynamicView_ContainerAllFatture', 'ViewAllFatture', callbackGetValueSelectedFatture);
+    }
+    function callbackGetValueSelectedFatture(selectedValues) {
+        setSelectedValuesFatture(selectedValues);
+    }
+    function setSelectedValuesFatture(values) {
+        if (values == null) {
+            return false;
+        }
+        $('#divPanelCheck').css('display', 'none');
+        $("#idInputID").val(response.result.Id);
+        $("#idInputNum").val(response.result.Numero);
+        $("#idInputData").val(response.result.Data);
+        $("#idInputImport").val(response.result.Importo);
+        $("#idInputTipo").val(response.result.Tipo);
+        $("#idInputAziend").val(response.result.Azienda);
+        $('#divPanelForm').css('display', 'block');
+        $('#btnEliminaFattura').css('display', 'inline');
+    }
+</script>

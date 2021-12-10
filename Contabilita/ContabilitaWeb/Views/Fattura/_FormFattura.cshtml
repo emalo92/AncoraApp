@@ -1,0 +1,51 @@
+﻿@using ContabilitaWeb.Models
+@model Fattura
+
+<div class="row mt-4">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="form-floating mb-3">
+            <input id="idInputID" type="hidden" asp-for="Id" />
+            <input id="idInputNum" type="text" asp-for="Numero" class="form-control" placeholder="Numero">
+            <label asp-for="Numero"></label>
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="form-floating">
+            <input id="idInputData" type="datetime" asp-for="Data" class="form-control" placeholder="Data">
+            <label asp-for="Data"></label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
+        <div class="form-floating">
+            <input id="idInputImpo" type="number" asp-for="Importo" class="form-control" placeholder="importo">
+            <label asp-for="Importo"></label>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
+        <div class="form-floating">
+            <input id="idInputTipo" type="text" asp-for="Tipo" class="form-control" placeholder="Tipo">
+            <label asp-for="Tipo"></label>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
+        <div class="form-floating">
+            <input id="idInputAziend" type="text" asp-for="Azienda" class="form-control" placeholder="Azienda">
+            <label asp-for="Azienda"></label>
+        </div>
+    </div>
+</div>
+<div class="row mt-3 text-end">
+    <div class="col-12">
+        <label id="btnRegistraFattura" class="me-3">
+            <button type="button" class="btn btn-success" title="Registra la fattura inserita" onclick="RegistraFattura()"><i class="fa fa-save"></i> Registra </button>
+        </label>
+        <label id="btnEliminaFattura" class="me-3" style="display:none">
+            <button type="button" class="btn btn-danger" title="Elimina La Fattura visualizzata'" onclick="EliminaFattura()"><i class="fa fa-trash"></i> Elimina </button>
+        </label>
+        <label id="btnAnnulla" class="me-3">
+            <button type="button" class="btn btn-secondary" title="Elimina La Fattura visualizzata'" onclick="Annulla()"><i class="fa fa-close"></i> Annulla </button>
+        </label>
+    </div>
+</div>
