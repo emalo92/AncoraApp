@@ -23,6 +23,7 @@ namespace Infrastructure.Dal
         Task<bool> SaveFatturaAsync(Fattura fattura, TipoCrud tipoCrud);
         Task<bool> SavePagamentoAsync(Pagamento pagamento, TipoCrud tipoCrud);
         Task<ResultPaginated<Azienda>> GetAllAziendeAsync(Pagination paginationInfr);
+        Task<ResultPaginated<Fattura>> GetAllFattureAsync(Pagination paginationInfr);
     }
 }
 

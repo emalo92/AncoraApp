@@ -122,6 +122,77 @@ namespace Infrastructure.Dal
                 throw;
             }
         }
+        public async Task<ResultPaginated<Fattura>> GetAllFattureAsync(Pagination pagination) {
+
+            _logger.LogInformation("GetAllFattureAsync START");
+            try
+            {
+                var fatture = (await GetAllFattureAsync()).AsQueryable();
+                string filtro = "";
+                if (pagination != null)
+                {
+                    if (pagination.ParametriRicerca.ContainsKey("Numero"))
+                    {
+                        filtro = pagination.ParametriRicerca["Numero"];
+                        fatture = fatture.Where(f => f.Numero.Contains(filtro));
+                    }
+                    if (pagination.ParametriRicerca.ContainsKey("Data"))
+                    {
+                        filtro = pagination.ParametriRicerca["Data"];
+                        fatture = fatture.Where(f => f.Data.ToString().Contains(filtro));
+                    }
+
+                    if (pagination.ParametriRicerca.ContainsKey("Importo"))
+                    {
+                        filtro = pagination.ParametriRicerca["Importo"];
+                        fatture = fatture.Where(f => f.Importo.ToString().Contains(filtro));
+                    }
+                    if (pagination.ParametriRicerca.ContainsKey("Tipo"))
+                    {
+                        filtro = pagination.ParametriRicerca["Tipo"];
+                        fatture = fatture.Where(f => f.Tipo.Contains(filtro));
+                    }
+                    if (pagination.ParametriRicerca.ContainsKey("Azienda"))
+                    {
+                        filtro = pagination.ParametriRicerca["Iban"];
+                        fatture = fatture.Where(f => f.Azienda.Contains(filtro));
+                    }
+
+                    pagination.TotalItems = fatture.Count();
+                    if (pagination.IsPaginated)
+                    {
+                        var skip = (pagination.CurrentPage - 1) * pagination.ItemsPerPage;
+                        fatture = fatture.Skip(skip).Take(pagination.ItemsPerPage);
+                    }
+                }
+                else
+                {
+                    pagination = new Pagination()
+                    {
+                        CurrentPage = 1,
+                        TotalPages = 1,
+                        ItemsPerPage = 0
+                    };
+                }
+                if (pagination.ItemsPerPage > 0)
+                {
+                    pagination.TotalPages = (int)Math.Ceiling(pagination.TotalItems / (decimal)pagination.ItemsPerPage);
+                }
+                var documentList = fatture.ToList();
+                var result = new ResultPaginated<Fattura>
+                {
+                    Pagination = pagination,
+                    Result = documentList
+                };
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetAllFattureAsync: " + ex.Message);
+                throw;
+            }
+
+        }
 
         public async Task<List<Pagamento>> GetAllPagamentiAsync()
         {
