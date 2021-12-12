@@ -19,13 +19,16 @@
 <div class="row">
     <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
         <div class="form-floating">
-            <input id="idInputImpo" type="number" asp-for="Importo" class="form-control" placeholder="importo">
+            <input id="idInputImpo" type="number" asp-for="Importo" class="form-control" placeholder="Importo">
             <label asp-for="Importo"></label>
         </div>
     </div>
     <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
         <div class="form-floating">
-            <input id="idInputTipo" type="text" asp-for="Tipo" class="form-control" placeholder="Tipo">
+            <select id="idInputTipo" type="text" asp-for="Tipo" class="form-select" placeholder="Tipo">
+                <option>Fattura</option>
+                <option>Nota di credito</option>
+            </select>
             <label asp-for="Tipo"></label>
         </div>
     </div>
@@ -42,10 +45,10 @@
             <button type="button" class="btn btn-success" title="Registra la fattura inserita" onclick="RegistraFattura()"><i class="fa fa-save"></i> Registra </button>
         </label>
         <label id="btnEliminaFattura" class="me-3" style="display:none">
-            <button type="button" class="btn btn-danger" title="Elimina La Fattura visualizzata'" onclick="EliminaFattura()"><i class="fa fa-trash"></i> Elimina </button>
+            <button type="button" class="btn btn-danger" title="Elimina la fattura visualizzata'" onclick="EliminaFattura()"><i class="fa fa-trash"></i> Elimina </button>
         </label>
         <label id="btnAnnulla" class="me-3">
-            <button type="button" class="btn btn-secondary" title="Elimina La Fattura visualizzata'" onclick="Annulla()"><i class="fa fa-close"></i> Annulla </button>
+            <button type="button" class="btn btn-secondary" title="Elimina la fattura visualizzata'" onclick="Annulla()"><i class="fa fa-close"></i> Annulla </button>
         </label>
     </div>
 </div>
