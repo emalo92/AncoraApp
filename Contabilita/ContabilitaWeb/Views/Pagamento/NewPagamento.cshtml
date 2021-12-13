@@ -1,0 +1,47 @@
+﻿@using ContabilitaWeb.Models
+@model Pagamento
+
+<h3 class="text-center">Nuovo Pagamento</h3>
+
+<section>
+    <div class="p-2 bg-light shadow">
+        <form id="FormNewPagamento" method="post" action="NewPagamento" autocomplete="off">
+            <partial name="_FormPagamento" model="Model"/>
+        </form>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function RegistraPagamento() {
+        var modalita= $("#idInputModalita").val();
+        var data = $("#idInputData").val();
+        var azienda = $("#idInputAzienda").val();
+        var numAssegnoBonifico = $("#idInputNumAssegnoBonifico").val();
+        if (modalita == null || modalita == "" || modalita == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "la modalita è obbligatoria");
+            return;
+        }
+        if (data == null || data == "" || data == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
+            return;
+        }
+        if (numAssegnoBonifico == null || numAssegnoBonifico == "" || numAssegnoBonifico == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "Il numero dell'assegno/Bognifico è obbligatorio");
+            return;
+        
+        if (azienda == null || azienda == "" || azienda == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "L'azienda è obbligatoria");
+            return;
+        }
+        var form = $("#FormNewPagamento");
+        form.submit();
+    }
+
+    function EliminaPagamento() {
+        return;
+    }
+
+    function Annulla() {
+        document.location.href='/Pagamento/NewPagamento';
+    }
+</script>

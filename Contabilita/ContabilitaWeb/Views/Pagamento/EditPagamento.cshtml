@@ -1,0 +1,124 @@
+﻿@using ContabilitaWeb.Models
+@model Pagamento
+
+<h3 class="text-center">Modifica Pagamento</h3>
+
+<section>
+    <div class="p-2 bg-light shadow">
+        <div id="divPanelCheck" class="row mt-3 mb-3">
+            <div class="col-6">
+                <div class="input-group">
+                    <input id="idInputPagamentoCheck" type="text" class="form-control" placeholder="Seleziona il Pagamento da modificare">
+                    <div class="input-group-append">
+                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllPagamenti('/Pagamento/GetAllPapamenti')">
+                            Seleziona
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-success" type="button" onclick="VerificaPagamento()"><i class="fa fa-check"></i> Verifica</button>
+            </div>
+        </div>
+    </div>
+    <div id="divPanelForm" class="p-2 bg-light shadow" style="display:none">
+        <form id="FormEditPagamento" method="post" action="EditPagamento" autocomplete="off">
+            <partial name="_FormPagamento" model="Model" />
+        </form>
+    </div>
+</section>
+
+<div id="Div_DynamicViewAllPagamenti" class="positionFixed" style="display:none">
+    <div class="finestraPopup">
+        <div id="Div_DynamicView_ContainerAllPagamenti">
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function RegistraPagamento() {
+        var modalita= $("#idInputModalita").val();
+        var data = $("#idInputData").val();
+        var azienda = $("#idInputAzienda").val();
+        var numAssegnoBonifico = $("#idInputNumAssegnoBonifico").val();
+        if (modalita == null || modalita == "" || modalita == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "la modalita è obbligatoria");
+            return;
+        }
+        if (data == null || data == "" || data == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
+            return;
+        }
+        if (numAssegnoBonifico == null || numAssegnoBonifico == "" || numAssegnoBonifico == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "Il numero dell'assegno/Bognifico è obbligatorio");
+            return;
+        
+        if (azienda == null || azienda == "" || azienda == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "L'azienda è obbligatoria");
+            return;
+        }
+        var form = $("#FormEditPagamento");
+        form.attr("action", "EditPagamento?tipoCrud=update")
+        form.submit();
+    }
+
+    function EliminaPagamento() {
+        myCustomModalConfirmShow("Conferma", "Sei sicuro di voler eliminare questo Pagamento?", DoSubmitData, null, "Si", "No");
+    }
+
+    function DoSubmitData() {
+        var form = $("#FormEditPagamento");
+        form.attr("action", "EditPagamento?tipoCrud=delete")
+        form.submit();
+    }
+
+    function Annulla() {
+        document.location.href='/Pagamento/EditPagamento';
+    }
+
+    function VerificaPagamento() {
+        //ToDO
+    }
+
+    var callbackGenericTable;  //viene definita in GenericTable
+    var checkOpenGenericTable = "";
+
+    function ShowDynamicViewAllPagamenti(url) {
+        checkOpenGenericTable = "Pagamenti";
+        $("#Div_DynamicView_ContainerAllPagamenti").load(url);
+        $("#Div_DynamicViewAllPagamenti").show();
+        dispatchOpenPopupCustomEvent('ViewAllPagamenti');
+        if (callbackGenericTable !== undefined) {
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllPagamenti), false);
+        }
+    }
+    document.addEventListener('openPopup_CustomEvent', (event) => {
+        if (event.Sender === "GenericTable") {
+            if (checkOpenGenericTable == "Pagamento") {
+                call_setContainerGenericTablePagamento();
+            }
+        }
+    }, false)
+
+    function call_setContainerGenericTablePagamenti() {
+        setContainerGenericTable('Div_DynamicViewAllPagamenti', 'Div_DynamicView_ContainerAllPagamenti', 'ViewAllPagamenti', callbackGetValueSelectedPagamenti);
+    }
+    function callbackGetValueSelectedPagamenti(selectedValues) {
+        setSelectedValuesPagamenti(selectedValues);
+    }
+    function setSelectedValuesPagamenti(values) {
+        if (values == null) {
+            return false;
+        }
+        $('#divPanelCheck').css('display', 'none');
+        $("#idInputID").val(response.result.Id);
+        $("#idInputModalita").val(response.result.Modalita);
+        $("#idInputData").val(response.result.Data);
+        $("#idInputImporto").val(response.result.Importo);
+        $("#idInputDescrizione").val(response.result.Descrizione);
+        $("#idInputAzienda").val(response.result.Azienda);
+        $('#divPanelForm').css('display', 'block');
+        $('#btnEliminaFattura').css('display', 'inline');
+    }
+</script>

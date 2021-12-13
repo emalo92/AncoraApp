@@ -10,11 +10,9 @@
                 <div class="input-group">
                     <input id="idInputNumeroCheck" type="text" class="form-control" placeholder="Seleziona la Fattura da modificare">
                     <div class="input-group-append">
-                        <div class="dropdown">
-                            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onclick="ShowDynamicViewAllFatture('/Fattura/GetAllFatture')">
-                                Seleziona
-                            </button>
-                        </div>
+                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllFatture('/Fattura/GetAllFatture')">
+                            Seleziona
+                        </button>
                     </div>
                 </div>
             </div>
@@ -40,7 +38,7 @@
 
 <script type="text/javascript">
     function RegistraFattura() {
-      var numero= $("#idInputNum").val();
+      var numero= $("#idInputNumero").val();
         var data = $("#idInputData").val();
         if (numero == null || numero == "" || numero == undefined) {
             myCustomModalAlertShow("Dati incompleti", "Il numero è obbligatorio");
@@ -95,11 +93,11 @@
                     else {
                         $('#divPanelCheck').css('display', 'none');
                         $("#idInputID").val(response.result.id);
-                        $("#idInputNum").val(response.result.numero);
+                        $("#idInputNumero").val(response.result.numero);
                         $("#idInputData").val(response.result.data);
-                        $("#idInputImport").val(response.result.importo);
+                        $("#idInputImporto").val(response.result.importo);
                         $("#idInputTipo").val(response.result.tipo);
-                        $("#idInputAziend").val(response.result.azienda);
+                        $("#idInputAzienda").val(response.result.azienda);
                         $('#divPanelForm').css('display', 'block');
                         $('#btnEliminaFattura').css('display', 'inline');
                     }
@@ -114,10 +112,10 @@
     var callbackGenericTable;  //viene definita in GenericTable
     var checkOpenGenericTable = "";
 
-    function ShowDynamicViewAllFattura(url) {
+    function ShowDynamicViewAllFatture(url) {
         checkOpenGenericTable = "Fatture";
         $("#Div_DynamicView_ContainerAllFatture").load(url);
-        $("#Div_DynamicViewAllfatture").show();
+        $("#Div_DynamicViewAllFatture").show();
         dispatchOpenPopupCustomEvent('ViewAllFatture');
         if (callbackGenericTable !== undefined) {
             document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllFatture), false);
@@ -143,11 +141,11 @@
         }
         $('#divPanelCheck').css('display', 'none');
         $("#idInputID").val(response.result.Id);
-        $("#idInputNum").val(response.result.Numero);
+        $("#idInputNumero").val(response.result.Numero);
         $("#idInputData").val(response.result.Data);
-        $("#idInputImport").val(response.result.Importo);
+        $("#idInputImporto").val(response.result.Importo);
         $("#idInputTipo").val(response.result.Tipo);
-        $("#idInputAziend").val(response.result.Azienda);
+        $("#idInputAzienda").val(response.result.Azienda);
         $('#divPanelForm').css('display', 'block');
         $('#btnEliminaFattura').css('display', 'inline');
     }

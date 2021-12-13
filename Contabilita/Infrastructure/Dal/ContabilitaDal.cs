@@ -154,7 +154,7 @@ namespace Infrastructure.Dal
                     }
                     if (pagination.ParametriRicerca.ContainsKey("Azienda"))
                     {
-                        filtro = pagination.ParametriRicerca["Iban"];
+                        filtro = pagination.ParametriRicerca["Azienda"];
                         fatture = fatture.Where(f => f.Azienda.Contains(filtro));
                     }
 
@@ -207,6 +207,83 @@ namespace Infrastructure.Dal
                 _logger.LogError("GetAllPagamentiAsync: " + ex.Message);
                 throw;
             }
+        }
+
+        public async Task<ResultPaginated<Pagamento>> GetAllPagamentiAsync(Pagination pagination) {
+
+            _logger.LogInformation("GetAllPagamentiAsync START");
+            try
+            {
+                var pagamenti = (await GetAllPagamentiAsync()).AsQueryable();
+                string filtro = "";
+                if (pagination != null)
+                {
+                    if (pagination.ParametriRicerca.ContainsKey("Modalita"))
+                    {
+                        filtro = pagination.ParametriRicerca["Modalita"];
+                        pagamenti = pagamenti.Where(f => f.Modalita.Contains(filtro));
+                    }
+                    if (pagination.ParametriRicerca.ContainsKey("Data"))
+                    {
+                        filtro = pagination.ParametriRicerca["Data"];
+                        pagamenti = pagamenti.Where(f => f.Data.ToString().Contains(filtro));
+                    }
+
+                    if (pagination.ParametriRicerca.ContainsKey("Importo"))
+                    {
+                        filtro = pagination.ParametriRicerca["Importo"];
+                        pagamenti = pagamenti.Where(f => f.Importo.ToString().Contains(filtro));
+                    }
+                    if (pagination.ParametriRicerca.ContainsKey("NumAssegnoBonifico"))
+                    {
+                        filtro = pagination.ParametriRicerca["NumAssegnoBonifico"];
+                        pagamenti = pagamenti.Where(f => f.NumAssegnoBonifico.Contains(filtro));
+                    }
+                    if (pagination.ParametriRicerca.ContainsKey("Descrizione"))
+                    {
+                        filtro = pagination.ParametriRicerca["Descrizione"];
+                        pagamenti = pagamenti.Where(f => f.Descrizione.Contains(filtro));
+                    }
+                    if (pagination.ParametriRicerca.ContainsKey("Azienda"))
+                    {
+                        filtro = pagination.ParametriRicerca["Azienda"];
+                        pagamenti = pagamenti.Where(f => f.Azienda.Contains(filtro));
+                    }
+
+                    pagination.TotalItems = pagamenti.Count();
+                    if (pagination.IsPaginated)
+                    {
+                        var skip = (pagination.CurrentPage - 1) * pagination.ItemsPerPage;
+                        pagamenti = pagamenti.Skip(skip).Take(pagination.ItemsPerPage);
+                    }
+                }
+                else
+                {
+                    pagination = new Pagination()
+                    {
+                        CurrentPage = 1,
+                        TotalPages = 1,
+                        ItemsPerPage = 0
+                    };
+                }
+                if (pagination.ItemsPerPage > 0)
+                {
+                    pagination.TotalPages = (int)Math.Ceiling(pagination.TotalItems / (decimal)pagination.ItemsPerPage);
+                }
+                var documentList = pagamenti.ToList();
+                var result = new ResultPaginated<Pagamento>
+                {
+                    Pagination = pagination,
+                    Result = documentList
+                };
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetAllPagamentiAsync: " + ex.Message);
+                throw;
+            }
+
         }
 
         public async Task<Azienda> GetAziendaAsync(string partitaIva,string ragioneSociale)

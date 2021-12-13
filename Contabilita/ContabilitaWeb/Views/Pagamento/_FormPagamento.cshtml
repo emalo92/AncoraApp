@@ -1,0 +1,61 @@
+﻿@using ContabilitaWeb.Models
+@model Pagamento
+
+<div class="row mt-4">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="form-floating mb-3">
+            <input id="idInputID" type="hidden" asp-for="Id" />
+            <select id="idInputModalita" type="text" asp-for="Modalita" class="form-select" placeholder="Modalita">
+                <option>Contanti</option>
+                <option>Assegno</option>
+                <option>Bonifico</option>
+            </select>
+            <label asp-for="Modalita"></label>
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="form-floating">
+            <input id="idInputData" type="date" asp-for="Data" class="form-control" placeholder="Data">
+            <label asp-for="Data"></label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
+        <div class="form-floating">
+            <input id="idInputImporto" type="number" asp-for="Importo" class="form-control" placeholder="Importo">
+            <label asp-for="Importo"></label>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
+        <div class="form-floating">
+            <input id="idInputNumAssegnoBonifico" type="text" asp-for="NumAssegnoBonifico" class="form-control" placeholder="NumAssegnoBonifico">
+            <label asp-for="NumAssegnoBonifico"></label>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
+        <div class="form-floating">
+            <input id="idInputDescrizione" type="text" asp-for="Descrizione" class="form-control" placeholder="Descrizione">
+            <label asp-for="Descrizione"></label>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
+        <div class="form-floating">
+            <input id="idInputAzienda" type="text" asp-for="Azienda" class="form-control" placeholder="Azienda">
+            <label asp-for="Azienda"></label>
+        </div>
+    </div>
+</div>
+<div class="row mt-3 text-end">
+    <div class="col-12">
+        <label id="btnRegistraPagamento" class="me-3">
+            <button type="button" class="btn btn-success" title="Registra il pagamento inserito" onclick="RegistraPagamento()"><i class="fa fa-save"></i> Registra </button>
+        </label>
+        <label id="btnEliminaPagamento" class="me-3" style="display:none">
+            <button type="button" class="btn btn-danger" title="Elimina il pagamento visualizzato" onclick="EliminaPagamento()"><i class="fa fa-trash"></i> Elimina </button>
+        </label>
+        <label id="btnAnnulla" class="me-3">
+            <button type="button" class="btn btn-secondary" title="Elimina il pagamento visualizzato" onclick="Annulla()"><i class="fa fa-close"></i> Annulla </button>
+        </label>
+    </div>
+</div>

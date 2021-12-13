@@ -1,5 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using ContabilitaWeb.Models
+@model List<Pagamento>
+
+<h4>Visualizza</h4>
+
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Modalita</th>
+            <th scope="col">Data</th>
+            <th scope="col">Importo</th>
+            <th scope="col">NumAssegnoBonifico</th>
+            <th scope="col">Descrizione</th>
+            <th scope="col">Azienda</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null) {
+        foreach(var pagamento in Model) {
+            <tr>
+                <th scope="row">@pagamento.Modalita</th>
+                <td>@pagamento.Data</td>
+                <td>@pagamento.Importo</td>
+                <td>@pagamento.NumAssegnoBonifico</td>
+                <td>@pagamento.Descrizione</td>
+                <td>@pagamento.Azienda</td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>
