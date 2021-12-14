@@ -200,7 +200,7 @@ namespace ContabilitaWeb.Controllers
                 ViewBag.ExistsValueFilter = true;
                 ViewBag.ParameterNameSearchFilter = "nameSearchFilter";
                 ViewBag.ParameterValueSearchFilter = "valueSearchFilter";
-                ViewBag.LabelSearchFilter = nameSearchFilter ?? "Numero";//vedere cosa mettere qua
+                ViewBag.LabelSearchFilter = nameSearchFilter ?? "azienda";//vedere cosa mettere qua
                 ViewBag.InputSearchFilter = valueSearchFilter ?? "";
                 ViewBag.SizeModal = "modal-xl";
                 return PartialView("_GenericTable", genericTable);
@@ -216,6 +216,42 @@ namespace ContabilitaWeb.Controllers
                 ViewMessage.ShowLocal(this, responseFailed);
                 _logger.LogError(ex, "GetAllPagamentiAsync");
                 return PartialView("_GenericTable", genericTable);
+            }
+        }
+
+        public async Task<IActionResult> GetPagamentoAsync(string azienda,DateTime? data)
+        {
+            _logger.LogInformation("VerificaPagamentoAsync START");
+            try
+            {
+                
+                if (azienda == null)
+                {
+                    throw new Exception("azienda is null");
+                }
+                if (data == null)
+                {
+                    throw new Exception("data is null");
+                }
+                var resultInfr = await _contabilitaDal.GetPagamentoAsync(azienda,data);
+                var result = _mapper.Map<Pagamento>(resultInfr);
+                var response = new Response
+                {
+                    IsSuccess = result != null,
+                    Message = result != null ? "" : "Nessun pagamento trovato",
+                    Result = result
+                };
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("VerificaPagamentoAsync: " + ex.Message);
+                var responseFailed = new Response
+                {
+                    IsSuccess = false,
+                    Message = "Si è verificato un errore durante la verifica del pagamento"
+                };
+                return Json(responseFailed);
             }
         }
     }

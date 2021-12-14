@@ -19,7 +19,7 @@
         foreach(var fattura in Model) {
             <tr>
                 <th scope="row">@fattura.Numero</th>
-                <td>@fattura.Data</td>
+                <td>@fattura.Data.Date</td>
                 <td>@fattura.Importo</td>
                 <td>@fattura.Tipo</td>
                 <td>@fattura.Azienda</td>

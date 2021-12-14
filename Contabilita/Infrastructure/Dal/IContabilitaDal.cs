@@ -18,7 +18,8 @@ namespace Infrastructure.Dal
         Task<List<Fattura>> GetAllFattureAsync();
         Task<List<Pagamento>> GetAllPagamentiAsync();
         Task<Azienda> GetAziendaAsync(string partitaIva, string ragioneSociale = null);
-        Task<Fattura> GetFatturaAsync(string numero, DateTime? data = null);
+        Task<Fattura> GetFatturaAsync(string numero,string azienda, DateTime? data = null);
+        Task<Pagamento> GetPagamentoAsync( string azienda, DateTime? data = null);
         Task<bool> SaveAziendaAsync(Azienda azienda, TipoCrud tipoCrud);
         Task<bool> SaveFatturaAsync(Fattura fattura, TipoCrud tipoCrud);
         Task<bool> SavePagamentoAsync(Pagamento pagamento, TipoCrud tipoCrud);

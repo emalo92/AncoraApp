@@ -9,6 +9,7 @@
             <div class="col-6">
                 <div class="input-group">
                     <input id="idInputNumeroCheck" type="text" class="form-control" placeholder="Seleziona la Fattura da modificare">
+                    <input id="idInputAziendaCheck" type="text" class="form-control" placeholder="Seleziona la Fattura da modificare">
                     <div class="input-group-append">
                         <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllFatture('/Fattura/GetAllFatture')">
                             Seleziona
@@ -38,13 +39,18 @@
 
 <script type="text/javascript">
     function RegistraFattura() {
-      var numero= $("#idInputNumero").val();
+        var numero= $("#idInputNumero").val();
         var data = $("#idInputData").val();
+        var azienda = $("#idInputAzienda").val();
         if (numero == null || numero == "" || numero == undefined) {
             myCustomModalAlertShow("Dati incompleti", "Il numero è obbligatorio");
             return;
         }
         if (data == null || data == "" || data == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
+            return;
+        }
+        if (azienda == null || azienda == "" || azienda == undefined) {
             myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
             return;
         }
@@ -69,13 +75,18 @@
 
     function VerificaFattura() {
         var numero = $('#idInputNumeroCheck').val();
+        var azienda = $('#idInputAziendaCheck').val();
         if (numero == null || numero == "" || numero == undefined) {
             myCustomModalAlertShow("Dati incompleti", "Inserire il Numero da verificare");
             return;
         }
+        if (azienda == null || azienda == "" || azienda == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "Inserire l'azienda da verificare");
+            return;
+        }
         $.ajax({
             type: "GET",
-            url: "/Fattura/GetFattura?numero=" + numero,
+            url: "/Fattura/GetFattura?numero=" + numero +"&azienda="+azienda,
             contentType: "application/json",
             success: function (response) {
                 if (!response.isSucces) {

@@ -314,15 +314,19 @@ namespace Infrastructure.Dal
             }
         }
 
-        public async Task<Fattura> GetFatturaAsync(string numero, DateTime? data) 
+        public async Task<Fattura> GetFatturaAsync(string numero,string azienda,DateTime? data ) 
         {
             _logger.LogInformation("GetFatturaAsync START");
             try
             {
                 var fatturaQuery = _context.Fattura.AsNoTracking().AsQueryable();
-                if (numero != null) 
-                { 
+                if (numero != null)
+                {
                     fatturaQuery = fatturaQuery.Where(Fattura => Fattura.Numero == numero);
+                }
+                if (azienda != null)
+                {
+                    fatturaQuery = fatturaQuery.Where(Fattura => Fattura.Azienda == azienda);
                 }
                 if (data != null) 
                 {
@@ -338,6 +342,35 @@ namespace Infrastructure.Dal
             catch (Exception ex)
             {
                 _logger.LogError("GetFatturaAsync: " + ex.Message);
+                throw;
+            }
+
+        }
+        public async Task<Pagamento> GetPagamentoAsync(string azienda, DateTime? data)
+        {
+            _logger.LogInformation("GetPagamentoAsync START");
+            try
+            {
+                var pagamentoQuery = _context.Pagamento.AsNoTracking().AsQueryable();
+                if (azienda != null)
+                {
+                    pagamentoQuery = pagamentoQuery.Where(Pagamento => Pagamento.Azienda == azienda);
+                }
+                if (data != null)
+                {
+                    pagamentoQuery = pagamentoQuery.Where(Pagamento => Pagamento.Data == data);
+                }
+                
+                var pagamento = await pagamentoQuery.FirstOrDefaultAsync();
+                if (pagamento == null)
+                {
+                    throw new Exception($"pagamento in null for azienda: {azienda} e for data:{data}");
+                }
+                return pagamento;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetPagamentoAsync: " + ex.Message);
                 throw;
             }
 

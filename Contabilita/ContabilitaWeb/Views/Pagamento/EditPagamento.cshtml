@@ -8,7 +8,8 @@
         <div id="divPanelCheck" class="row mt-3 mb-3">
             <div class="col-6">
                 <div class="input-group">
-                    <input id="idInputPagamentoCheck" type="text" class="form-control" placeholder="Seleziona il Pagamento da modificare">
+                    <input id="idInputAziendaCheck" type="text" class="form-control" placeholder="Seleziona il Pagamento da modificare">
+                    <input id="idInputDataCheck" type="date" class="form-control" placeholder="Seleziona il Pagamento da modificare">
                     <div class="input-group-append">
                         <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllPagamenti('/Pagamento/GetAllPagamenti')">
                             Seleziona
@@ -38,22 +39,16 @@
 
 <script type="text/javascript">
     function RegistraPagamento() {
-        var modalita= $("#idInputModalita").val();
+        
         var data = $("#idInputData").val();
         var azienda = $("#idInputAzienda").val();
-        var numAssegnoBonifico = $("#idInputNumAssegnoBonifico").val();
-        if (modalita == null || modalita == "" || modalita == undefined) {
-            myCustomModalAlertShow("Dati incompleti", "la modalita è obbligatoria");
-            return;
-        }
+        
+        
         if (data == null || data == "" || data == undefined) {
             myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
             return;
         }
-        if (numAssegnoBonifico == null || numAssegnoBonifico == "" || numAssegnoBonifico == undefined) {
-            myCustomModalAlertShow("Dati incompleti", "Il numero dell'assegno/Bognifico è obbligatorio");
-            return;
-        }
+        
         if (azienda == null || azienda == "" || azienda == undefined) {
             myCustomModalAlertShow("Dati incompleti", "L'azienda è obbligatoria");
             return;
@@ -78,8 +73,54 @@
     }
 
     function VerificaPagamento() {
-        //ToDO
+        
+        var azienda = $('#idInputAziendaCheck').val();
+        var data = $('#idInputDataCheck').val();
+        
+        if (azienda == null || azienda == "" || azienda == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "Inserire l'azienda da verificare");
+            return;
+        }
+        if (data == null || data == "" || data == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "Inserire la data da verificare");
+            return;
+        }
+        $.ajax({
+            type: "GET",
+            url: "/Pagamento/GetPagamento?azienda=" + azienda +"&data="+data,
+            contentType: "application/json",
+            success: function (response) {
+                if (!response.isSucces) {
+                    if (response.message != null && response.message != undefined && response.message != '') {
+                        myCustomModalAlertShow("Dati non validi", response.message);
+                    }
+                    else {
+                        myCustomModalAlertShow("Dati non validi", response);
+                    }
+                }
+                else {
+                    if (response.result == null) {
+                        myCustomModalAlertShow("Attenzione", response.message);
+                    }
+                    else {
+                        $('#divPanelCheck').css('display', 'none');
+                        $("#idInputID").val(response.result.id);
+                        $("#idInputModalita").val(response.result.modalita);
+                        $("#idInputData").val(response.result.data);
+                        $("#idInputImporto").val(response.result.importo);
+                        $("#idInputDescrizione").val(response.result.descrizione);
+                        $("#idInputAzienda").val(response.result.azienda);
+                        $('#divPanelForm').css('display', 'block');
+                        $('#btnEliminaFattura').css('display', 'inline');
+                    }
+                }
+            },
+            error(jqXHR, textStatus) {
+                myCustomModalAlertShow("Errore generico", textStatus);
+            }
+        });
     }
+    
 
     var callbackGenericTable;  //viene definita in GenericTable
     var checkOpenGenericTable = "";
@@ -95,8 +136,8 @@
     }
     document.addEventListener('openPopup_CustomEvent', (event) => {
         if (event.Sender === "GenericTable") {
-            if (checkOpenGenericTable == "Pagamento") {
-                call_setContainerGenericTablePagamento();
+            if (checkOpenGenericTable == "Pagamenti") {
+                call_setContainerGenericTablePagamenti();
             }
         }
     }, false)

@@ -218,6 +218,41 @@ namespace ContabilitaWeb.Controllers
                 return PartialView("_GenericTable", genericTable);
             }
         }
+
+        public async Task<IActionResult> GetFatturaAsync(string numero,string azienda)
+        {
+            _logger.LogInformation("VerificaFatturaAsync START");
+            try
+            {
+                if (numero == null)
+                {
+                    throw new Exception("numero is null");
+                }
+                if (azienda == null) 
+                {
+                    throw new Exception("azienda is null");
+                }
+                var resultInfr = await _contabilitaDal.GetFatturaAsync(numero,azienda);
+                var result = _mapper.Map<Fattura>(resultInfr);
+                var response = new Response
+                {
+                    IsSuccess = result != null,
+                    Message = result != null ? "" : "Nessun fattura trovata",
+                    Result = result
+                };
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("VerificaFatturaAsync: " + ex.Message);
+                var responseFailed = new Response
+                {
+                    IsSuccess = false,
+                    Message = "Si è verificato un errore durante la verifica della fattura"
+                };
+                return Json(responseFailed);
+            }
+        }
     }
     
 }
