@@ -344,8 +344,8 @@ namespace Infrastructure.Dal
                 _logger.LogError("GetFatturaAsync: " + ex.Message);
                 throw;
             }
-
         }
+
         public async Task<Pagamento> GetPagamentoAsync(string azienda, DateTime? data)
         {
             _logger.LogInformation("GetPagamentoAsync START");

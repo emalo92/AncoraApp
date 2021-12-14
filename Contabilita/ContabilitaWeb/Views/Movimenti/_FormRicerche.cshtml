@@ -1,0 +1,46 @@
+﻿@using ContabilitaWeb.Models
+@model InputRicercaMovimenti
+
+@{
+    var data = DateTime.Now;
+    var dataDal = DateTime.Now;
+}
+
+<div class="row mt-3">
+    <div class="col-xl-3">
+        <div class="form-floating">
+            <input id="idInputDataDal" type="date" asp-for="DataDal" class="form-control" placeholder="Seleziona la data d'inizio" value="@dataDal.ToString("yyyy-MM-01")">
+            <label asp-for="DataDal"></label>
+        </div>
+    </div>
+    <div class="col-xl-3">
+        <div class="form-floating">
+            <input id="idInputDataAl" type="date" asp-for="DataAl" class="form-control" placeholder="Seleziona la data di fine" value="@data.ToString("yyyy-MM-dd")">
+            <label asp-for="DataAl"></label>
+        </div>
+    </div>
+    <div class="col-xl-3">
+        <div class="form-floating">
+            <select id="idInputTipoMovimento" type="text" asp-for="TipoMovimento" class="form-select" placeholder="Seleziona un tipo per filtrare">
+                <option>Tutti</option>
+                <option>Fattura</option>
+                <option>Nota di credito</option>
+                <option>Pagamento</option>
+            </select>
+            <label asp-for="TipoMovimento"></label>
+        </div>
+    </div>
+    <div class="col-xl-3">
+        <div class="form-floating">
+            <input id="idInputAzienda" asp-for="Azienda" class="form-control" placeholder="Seleziona un'azienda per filtrare">
+            <label asp-for="Azienda"></label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 mt-3 text-end">
+        <label id="btnRicerca" class="me-3">
+            <button type="button" class="btn btn-success" title="Avvia la ricerca" onclick="RicercaMovimenti()"><i class="fa fa-search"></i> Ricerca</button>
+        </label>
+    </div>
+</div>

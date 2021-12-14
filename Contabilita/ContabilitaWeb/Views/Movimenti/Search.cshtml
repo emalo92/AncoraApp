@@ -1,1 +1,18 @@
-﻿<h3>Movimenti</h3>
+﻿@using ContabilitaWeb.Models
+@model InputRicercaMovimenti
+
+@{
+    var resultList = ViewBag.ResultList != null ? ViewBag.ResultList : null;
+}
+
+<h3 class="text-center">Movimenti</h3>
+
+<section>
+    <div class="p-2 bg-light shadow">
+        <form id="FormRicerche" method="post" action="Search" autocomplete="off">
+            <partial name="_FormRicerche" model="Model" />
+        </form>
+    </div>
+</section>
+
+<partial name="_TableResultRicerche" model="@resultList" />
