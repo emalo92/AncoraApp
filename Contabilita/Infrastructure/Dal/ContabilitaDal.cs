@@ -286,7 +286,7 @@ namespace Infrastructure.Dal
 
         }
 
-        public async Task<Azienda> GetAziendaAsync(string partitaIva,string ragioneSociale)
+        public async Task<Azienda> GetAziendaAsync(string partitaIva, string ragioneSociale)
         {
             _logger.LogInformation("GetAziendaAsync START");
             try 

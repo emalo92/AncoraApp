@@ -220,5 +220,36 @@ namespace ContabilitaWeb.Controllers
                 return PartialView("_GenericTable", genericTable);
             }
         }
+
+        public async Task<IActionResult> GetAziendaAsync(string partitaIva)
+        {
+            _logger.LogInformation("VerificaAziendaAsync START");
+            try
+            {
+                if (partitaIva == null)
+                {
+                    throw new Exception("partitaIva is null");
+                }
+                var resultInfr = await _contabilitaDal.GetAziendaAsync(partitaIva);
+                var result = _mapper.Map<Azienda>(resultInfr);
+                var response = new Response
+                {
+                    IsSuccess = result != null,
+                    Message = result != null ? "" : "Nessun azienda trovata",
+                    Result = result
+                };
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("VerificaAziendaAsync: " + ex.Message);
+                var responseFailed = new Response
+                {
+                    IsSuccess = false,
+                    Message = "Si è verificato un errore durante la verifica dell'azienda"
+                };
+                return Json(responseFailed);
+            }
+        }
     }
 }

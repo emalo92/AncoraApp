@@ -19,6 +19,10 @@
             myCustomModalAlertShow("Dati incompleti", "La partita IVA è obbligatoria");
             return;
         }
+        if (partitaIVA.length > 11) {
+            myCustomModalAlertShow("Dati non validi", "La partita IVA non può essere più lunga di 11 caratteri");
+            return;
+        }
         if (ragioneSociale == null || ragioneSociale == "" || ragioneSociale == undefined) {
             myCustomModalAlertShow("Dati incompleti", "La ragione sociale è obbligatoria");
             return;

@@ -44,6 +44,10 @@
             myCustomModalAlertShow("Dati incompleti", "La partita IVA è obbligatoria");
             return;
         }
+        if (partitaIVA.length > 11) {
+            myCustomModalAlertShow("Dati non validi", "La partita IVA non può essere più lunga di 11 caratteri");
+            return;
+        }
         if (ragioneSociale == null || ragioneSociale == "" || ragioneSociale == undefined) {
             myCustomModalAlertShow("Dati incompleti", "La ragione sociale è obbligatoria");
             return;
@@ -78,7 +82,7 @@
             url: "/Azienda/GetAzienda?partitaIva=" + partitaIva,
             contentType: "application/json",
             success: function (response) {
-                if (!response.isSucces) {
+                if (!response.isSuccess) {
                     if (response.message != null && response.message != undefined && response.message != '') {
                         myCustomModalAlertShow("Dati non validi", response.message);
                     }
@@ -93,7 +97,7 @@
                     else {
                         $('#divPanelCheck').css('display', 'none');
                         $("#idInputID").val(response.result.id);
-                        $("#idInputPIVA").val(response.result.partitaIVA);
+                        $("#idInputPIVA").val(response.result.partitaIva);
                         $("#idInputRagioneSociale").val(response.result.ragioneSociale);
                         $("#idInputEmail").val(response.result.email);
                         $("#idInputTelefono").val(response.result.telefono);
