@@ -10,7 +10,7 @@
                 <div class="input-group">
                     <input id="idInputPagamentoCheck" type="text" class="form-control" placeholder="Seleziona il Pagamento da modificare">
                     <div class="input-group-append">
-                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllPagamenti('/Pagamento/GetAllPapamenti')">
+                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllPagamenti('/Pagamento/GetAllPagamenti')">
                             Seleziona
                         </button>
                     </div>
@@ -53,7 +53,7 @@
         if (numAssegnoBonifico == null || numAssegnoBonifico == "" || numAssegnoBonifico == undefined) {
             myCustomModalAlertShow("Dati incompleti", "Il numero dell'assegno/Bognifico è obbligatorio");
             return;
-        
+        }
         if (azienda == null || azienda == "" || azienda == undefined) {
             myCustomModalAlertShow("Dati incompleti", "L'azienda è obbligatoria");
             return;
@@ -112,12 +112,12 @@
             return false;
         }
         $('#divPanelCheck').css('display', 'none');
-        $("#idInputID").val(response.result.Id);
-        $("#idInputModalita").val(response.result.Modalita);
-        $("#idInputData").val(response.result.Data);
-        $("#idInputImporto").val(response.result.Importo);
-        $("#idInputDescrizione").val(response.result.Descrizione);
-        $("#idInputAzienda").val(response.result.Azienda);
+        $("#idInputID").val(values.Id);
+        $("#idInputModalita").val(values.Modalita);
+        $("#idInputData").val(values.Data);
+        $("#idInputImporto").val(values.Importo);
+        $("#idInputDescrizione").val(values.Descrizione);
+        $("#idInputAzienda").val(values.Azienda);
         $('#divPanelForm').css('display', 'block');
         $('#btnEliminaFattura').css('display', 'inline');
     }

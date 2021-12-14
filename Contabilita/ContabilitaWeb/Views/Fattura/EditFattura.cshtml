@@ -140,12 +140,12 @@
             return false;
         }
         $('#divPanelCheck').css('display', 'none');
-        $("#idInputID").val(response.result.Id);
-        $("#idInputNumero").val(response.result.Numero);
-        $("#idInputData").val(response.result.Data);
-        $("#idInputImporto").val(response.result.Importo);
-        $("#idInputTipo").val(response.result.Tipo);
-        $("#idInputAzienda").val(response.result.Azienda);
+        $("#idInputID").val(values.Id);
+        $("#idInputNumero").val(values.Numero);
+        $("#idInputData").val(values.Data);
+        $("#idInputImporto").val(values.Importo);
+        $("#idInputTipo").val(values.Tipo);
+        $("#idInputAzienda").val(values.Azienda);
         $('#divPanelForm').css('display', 'block');
         $('#btnEliminaFattura').css('display', 'inline');
     }
