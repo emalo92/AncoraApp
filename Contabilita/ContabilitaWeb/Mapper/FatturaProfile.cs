@@ -12,8 +12,12 @@ namespace ContabilitaWeb.Mapper
     {
         public FatturaProfile()
         {
-            CreateMap<Infrastructure.Models.Fattura, Fattura>();
-            CreateMap<Fattura, Infrastructure.Models.Fattura>();
+            CreateMap<Infrastructure.Models.Fattura, Fattura>()
+                .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Tipo != null ? src.Tipo.Trim() : null))
+                ;
+            CreateMap<Fattura, Infrastructure.Models.Fattura>()
+                .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Tipo != null ? src.Tipo.Trim() : null))
+                ;
         }
     }
 }

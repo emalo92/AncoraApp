@@ -11,7 +11,7 @@
     </div>
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
         <div class="form-floating">
-            <input id="idInputData" type="datetime-local" asp-for="Data" class="form-control" placeholder="Data">
+            <input id="idInputData" type="date" asp-for="Data" class="form-control" placeholder="Data">
             <label asp-for="Data"></label>
         </div>
     </div>
@@ -23,8 +23,7 @@
             <label asp-for="Importo"></label>
         </div>
     </div>
-    
-    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-3">
         <div class="form-floating">
             <select id="idInputTipo" type="text" asp-for="Tipo" class="form-select" placeholder="Tipo">
                 <option>Fattura</option>
@@ -33,12 +32,16 @@
             <label asp-for="Tipo"></label>
         </div>
     </div>
-    <div class = "mt-3"></div>
-    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt_3 ">
-        <input id="idInputAziendacheck" type="text" class="form-control" placeholder="Seleziona l'azienda " readonly>
-            <button class="btn btn-success dropdown-toggle mt-3" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllAziendeOfFattura('/Azienda/GetAllAziende') ">
-                            Seleziona
-                        </button>
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-3">
+        <div class="form-floating input-group">
+            <input id="idInputAzienda" type="text" asp-for="Azienda" class="form-control" placeholder="Azienda">
+            <label asp-for="Azienda"></label>
+            <div class="input-group-append">
+                <button class="btn btn-success dropdown-toggle" type="button" onclick="ShowDynamicViewAllAziendeOfFattura('/Azienda/GetAllAziende')" style="height: calc(3.5rem + 2px); border-start-start-radius:0; border-end-start-radius:0">
+                    Seleziona
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row mt-3 text-end">
@@ -53,12 +56,4 @@
             <button type="button" class="btn btn-secondary" title="Elimina la fattura visualizzata'" onclick="Annulla()"><i class="fa fa-close"></i> Annulla </button>
         </label>
     </div>
-
 </div>
-<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
-        <div class="form-floating">
-            <input id="idInputAzienda" type="text" asp-for="Azienda" class="form-control"  style="display:none">
-            
-        </div>
-    </div>
-
