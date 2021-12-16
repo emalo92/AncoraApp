@@ -60,3 +60,8 @@ function dispatchClosedPopupCustomEventWithCallback(dataSender, callbackMethod, 
     callbackMethod(data);
     document.dispatchEvent(closedPopupCustomEvent);
 }
+
+function GetSafeDataValue(data) {
+    var dataSafe = data.substring(6, 10) + "-" + data.substring(3, 5) + "-" + data.substring(0, 2);
+    return dataSafe;
+}

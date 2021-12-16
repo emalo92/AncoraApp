@@ -157,7 +157,7 @@
         $('#divPanelCheck').css('display', 'none');
         $("#idInputID").val(values.Id);
         $("#idInputNumero").val(values.Numero);
-        $("#idInputData").val(values.Data);
+        $("#idInputData").val(GetSafeDataValue(values.Data));
         $("#idInputImporto").val(values.Importo);
         $("#idInputTipo").val(values.Tipo);
         $("#idInputAzienda").val(values.Azienda);
@@ -195,6 +195,5 @@
             return false;
         }
         $("#idInputAzienda").val(values.PartitaIVA);
-        
     }
 </script>
