@@ -36,6 +36,13 @@
         </div>
     </div>
 </div>
+<div id="Div_DynamicViewAllAziende" class="positionFixed" style="display:none">
+    <div class="finestraPopup">
+        <div id="Div_DynamicView_ContainerAllAziende">
+
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     function RegistraPagamento() {
@@ -161,5 +168,35 @@
         $("#idInputAzienda").val(values.Azienda);
         $('#divPanelForm').css('display', 'block');
         $('#btnEliminaFattura').css('display', 'inline');
+    }
+    function ShowDynamicViewAllAziendeOfPagamento(url) {
+        checkOpenGenericTable = "Aziende";
+        $("#Div_DynamicView_ContainerAllAziende").load(url);
+        $("#Div_DynamicViewAllAziende").show();
+        dispatchOpenPopupCustomEvent('ViewAllAziende');
+        if (callbackGenericTable !== undefined) {
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllAziendeOfPagamento), false);
+        }
+    }
+    document.addEventListener('openPopup_CustomEvent', (event) => {
+        if (event.Sender === "GenericTable") {
+            if (checkOpenGenericTable == "Aziende") {
+                call_setContainerGenericTableAziende();
+            }
+        }
+    }, false)
+
+    function call_setContainerGenericTableAziende() {
+        setContainerGenericTable('Div_DynamicViewAllAziende', 'Div_DynamicView_ContainerAllAziende', 'ViewAllAziende', callbackGetValueSelectedAziende);
+    }
+    function callbackGetValueSelectedAziende(selectedValues) {
+        setSelectedValuesAziende(selectedValues);
+    }
+    function setSelectedValuesAziende(values) {
+        if (values == null) {
+            return false;
+        }
+        $("#idInputAzienda").val(values.PartitaIVA);
+        $("#idInputAziendacheck").val(values.RagioneSociale);  
     }
 </script>

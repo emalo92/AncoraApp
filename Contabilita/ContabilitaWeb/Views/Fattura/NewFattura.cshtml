@@ -10,17 +10,39 @@
         </form>
     </div>
 </section>
+<div id="Div_DynamicViewAllAziende" class="positionFixed" style="display:none">
+    <div class="finestraPopup">
+        <div id="Div_DynamicView_ContainerAllAziende">
+
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     function RegistraFattura() {
         var numero= $("#idInputNumero").val();
+        var azienda = $("#idInputAzienda").val();
         var data = $("#idInputData").val();
+        var importo = $("#idInputImporto").val();
         if (numero == null || numero == "" || numero == undefined) {
             myCustomModalAlertShow("Dati incompleti", "Il numero è obbligatorio");
             return;
         }
+        if (partitaIVA.length > 20) {
+            myCustomModalAlertShow("Dati non validi", "il numero non può essere più lungo di 20 caratteri");
+            return;
+        }
         if (data == null || data == "" || data == undefined) {
-            myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
+            myCustomModalAlertShow("Dati incompleti", "Il numero è obbligatorio");
+            return;
+        }
+        if (importo == null || importo == "" || importo == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "L'importo è obbligatoria");
+            return;
+        }
+
+        if (azienda == null || azienda == "" || azienda == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "L'azienda è obbligatoria");
             return;
         }
         var form = $("#FormNewFattura");
@@ -33,5 +55,38 @@
 
     function Annulla() {
         document.location.href='/Fattura/NewFattura';
+    }
+    var callbackGenericTable;  //viene definita in GenericTable
+    var checkOpenGenericTable = "";
+
+    function ShowDynamicViewAllAziendeOfFattura(url) {
+        checkOpenGenericTable = "Aziende";
+        $("#Div_DynamicView_ContainerAllAziende").load(url);
+        $("#Div_DynamicViewAllAziende").show();
+        dispatchOpenPopupCustomEvent('ViewAllAziende');
+        if (callbackGenericTable !== undefined) {
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllAziendeOfFattura), false);
+        }
+    }
+    document.addEventListener('openPopup_CustomEvent', (event) => {
+        if (event.Sender === "GenericTable") {
+            if (checkOpenGenericTable == "Aziende") {
+                call_setContainerGenericTableAziende();
+            }
+        }
+    }, false)
+
+    function call_setContainerGenericTableAziende() {
+        setContainerGenericTable('Div_DynamicViewAllAziende', 'Div_DynamicView_ContainerAllAziende', 'ViewAllAziende', callbackGetValueSelectedAziende);
+    }
+    function callbackGetValueSelectedAziende(selectedValues) {
+        setSelectedValuesAziende(selectedValues);
+    }
+    function setSelectedValuesAziende(values) {
+        if (values == null) {
+            return false;
+        }
+        $("#idInputAzienda").val(values.PartitaIVA);
+        $("#idInputAziendacheck").val(values.RagioneSociale);  
     }
 </script>

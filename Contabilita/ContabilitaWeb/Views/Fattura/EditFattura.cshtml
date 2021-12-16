@@ -8,8 +8,8 @@
         <div id="divPanelCheck" class="row mt-3 mb-3">
             <div class="col-6">
                 <div class="input-group">
-                    <input id="idInputNumeroCheck" type="text" class="form-control" placeholder="Seleziona la Fattura da modificare">
-                    <input id="idInputAziendaCheck" type="text" class="form-control" placeholder="Seleziona la Fattura da modificare">
+                    <input id="idInputNumeroCheck" type="text" class="form-control " placeholder="Seleziona il numero">
+                    <input id="idInputAziendaCheck" type="text" class="form-control " placeholder="Seleziona l'azienda" readonly>
                     <div class="input-group-append">
                         <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllFatture('/Fattura/GetAllFatture')">
                             Seleziona
@@ -36,6 +36,13 @@
         </div>
     </div>
 </div>
+<div id="Div_DynamicViewAllAziende" class="positionFixed" style="display:none">
+    <div class="finestraPopup">
+        <div id="Div_DynamicView_ContainerAllAziende">
+
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     function RegistraFattura() {
@@ -46,12 +53,9 @@
             myCustomModalAlertShow("Dati incompleti", "Il numero è obbligatorio");
             return;
         }
-        if (data == null || data == "" || data == undefined) {
-            myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
-            return;
-        }
+        
         if (azienda == null || azienda == "" || azienda == undefined) {
-            myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
+            myCustomModalAlertShow("Dati incompleti", "L'azienda è obbligatoria");
             return;
         }
         var form = $("#FormEditFattura");
@@ -159,5 +163,38 @@
         $("#idInputAzienda").val(values.Azienda);
         $('#divPanelForm').css('display', 'block');
         $('#btnEliminaFattura').css('display', 'inline');
+    }
+    var callbackGenericTable;  //viene definita in GenericTable
+    var checkOpenGenericTable = "";
+
+    function ShowDynamicViewAllAziendeOfFattura(url) {
+        checkOpenGenericTable = "Aziende";
+        $("#Div_DynamicView_ContainerAllAziende").load(url);
+        $("#Div_DynamicViewAllAziende").show();
+        dispatchOpenPopupCustomEvent('ViewAllAziende');
+        if (callbackGenericTable !== undefined) {
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllAziendeOfFattura), false);
+        }
+    }
+    document.addEventListener('openPopup_CustomEvent', (event) => {
+        if (event.Sender === "GenericTable") {
+            if (checkOpenGenericTable == "Aziende") {
+                call_setContainerGenericTableAziende();
+            }
+        }
+    }, false)
+
+    function call_setContainerGenericTableAziende() {
+        setContainerGenericTable('Div_DynamicViewAllAziende', 'Div_DynamicView_ContainerAllAziende', 'ViewAllAziende', callbackGetValueSelectedAziende);
+    }
+    function callbackGetValueSelectedAziende(selectedValues) {
+        setSelectedValuesAziende(selectedValues);
+    }
+    function setSelectedValuesAziende(values) {
+        if (values == null) {
+            return false;
+        }
+        $("#idInputAzienda").val(values.PartitaIVA);
+        
     }
 </script>
