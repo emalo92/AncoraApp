@@ -8,7 +8,7 @@
         <div id="divPanelCheck" class="row mt-3 mb-3">
             <div class="col-6">
                 <div class="input-group">
-                    <input id="idInputAziendaCheck" type="text" class="form-control" placeholder="Seleziona il Pagamento da modificare">
+                    <input id="idInputAziendaCheck" type="text" class="form-control mr-2" placeholder="Seleziona il Pagamento da modificare">
                     <input id="idInputDataCheck" type="date" class="form-control" placeholder="Seleziona il Pagamento da modificare">
                     <div class="input-group-append">
                         <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllPagamenti('/Pagamento/GetAllPagamenti')">
@@ -162,7 +162,7 @@
         $('#divPanelCheck').css('display', 'none');
         $("#idInputID").val(values.Id);
         $("#idInputModalita").val(values.Modalita);
-        $("#idInputData").val(values.Data);
+        $("#idInputData").val(GetSafeDataValue(values.Data));
         $("#idInputImporto").val(values.Importo);
         $("#idInputDescrizione").val(values.Descrizione);
         $("#idInputAzienda").val(values.Azienda);
@@ -197,6 +197,6 @@
             return false;
         }
         $("#idInputAzienda").val(values.PartitaIVA);
-        $("#idInputAziendacheck").val(values.RagioneSociale);  
+        
     }
 </script>
