@@ -43,10 +43,10 @@
 <div class = "row">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-3">
         <div class="form-floating input-group">
-            <input id="idInputAzienda" type="text" asp-for="Azienda" class="form-control" placeholder="Azienda">
+            <input id="idInputAzienda" type="text" asp-for="Azienda" class="form-control" placeholder="Azienda" readonly>
             <label asp-for="Azienda"></label>
             <div class="input-group-append">
-                <button class="btn btn-success dropdown-toggle" type="button" onclick="ShowDynamicViewAllAziendeOfFattura('/Azienda/GetAllAziende')" style="height: calc(3.5rem + 2px); border-start-start-radius:0; border-end-start-radius:0">
+                <button class="btn btn-success dropdown-toggle" type="button" onclick="ShowDynamicViewAllAziendeOfPagamento('/Azienda/GetAllAziende')" style="height: calc(3.5rem + 2px); border-start-start-radius:0; border-end-start-radius:0">
                     Seleziona
                 </button>
             </div>

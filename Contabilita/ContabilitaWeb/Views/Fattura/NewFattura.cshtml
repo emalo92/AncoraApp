@@ -28,7 +28,7 @@
             myCustomModalAlertShow("Dati incompleti", "Il numero è obbligatorio");
             return;
         }
-        if (partitaIVA.length > 20) {
+        if (numero.length > 20) {
             myCustomModalAlertShow("Dati non validi", "il numero non può essere più lungo di 20 caratteri");
             return;
         }
@@ -87,6 +87,5 @@
             return false;
         }
         $("#idInputAzienda").val(values.PartitaIVA);
-        $("#idInputAziendacheck").val(values.RagioneSociale);  
-    }
+     }
 </script>
