@@ -453,5 +453,58 @@ namespace Infrastructure.Dal
                 throw;
             }
         }
+
+        public async Task<List<Movimento>> SearchAsync(InputRicercaMovimenti input)
+        {
+            _logger.LogInformation("SearchAsync START");
+            try
+            {
+                var queryFatture = await (from fattura in _context.Fattura.AsNoTracking()
+                                   join azienda in _context.Azienda.AsNoTracking()
+                                   on fattura.Azienda equals azienda.PartitaIva
+                                   where fattura.Data >= input.DataDal && fattura.Data <= input.DataAl
+                                   select new Movimento
+                                   {
+                                       Data = fattura.Data,
+                                       Numero = fattura.Numero,
+                                       PartitaIva = fattura.Azienda,
+                                       RagioneSociale = azienda.RagioneSociale,
+                                       Tipo = fattura.Tipo.Trim(),
+                                       Importo = fattura.Importo,
+                                   }).ToListAsync();
+
+                var queryPagamenti = await (from pagamento in _context.Pagamento.AsNoTracking()
+                                     join azienda in _context.Azienda.AsNoTracking()
+                                     on pagamento.Azienda equals azienda.PartitaIva
+                                     where pagamento.Data >= input.DataDal && pagamento.Data <= input.DataAl
+                                     select new Movimento
+                                     {
+                                         Data = pagamento.Data,
+                                         Numero = pagamento.NumAssegnoBonifico,
+                                         PartitaIva = pagamento.Azienda,
+                                         RagioneSociale = azienda.RagioneSociale,
+                                         Tipo = "Pagamento",
+                                         Importo = pagamento.Importo,
+                                     }).ToListAsync();
+
+                var querySearch = queryFatture.Union(queryPagamenti);
+
+                if (input.Azienda != null)
+                {
+                    querySearch = querySearch.Where(x => x.PartitaIva == input.Azienda);
+                }
+                if ( !string.IsNullOrEmpty(input.TipoMovimento) && input.TipoMovimento != "Tutti")
+                {
+                    querySearch = querySearch.Where(x => x.Tipo == input.TipoMovimento);
+                }
+                
+                return querySearch.ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("SearchAsync: " + ex.Message);
+                throw;
+            }
+        }
     }
 }

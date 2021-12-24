@@ -11,6 +11,6 @@ namespace Infrastructure.Models
         public DateTime DataDal { get; set; }
         public DateTime DataAl { get; set; }
         public string TipoMovimento { get; set; } = null;
-        public string Azienda { get; set; } = null;
+        public string? Azienda { get; set; } = null;
     }
 }

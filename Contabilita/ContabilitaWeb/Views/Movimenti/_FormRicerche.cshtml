@@ -7,19 +7,19 @@
 }
 
 <div class="row mt-3">
-    <div class="col-xl-3">
+    <div class="col-xl-3 mt-1">
         <div class="form-floating">
             <input id="idInputDataDal" type="date" asp-for="DataDal" class="form-control" placeholder="Seleziona la data d'inizio" value="@dataDal.ToString("yyyy-MM-01")">
             <label asp-for="DataDal"></label>
         </div>
     </div>
-    <div class="col-xl-3">
+    <div class="col-xl-3 mt-1">
         <div class="form-floating">
             <input id="idInputDataAl" type="date" asp-for="DataAl" class="form-control" placeholder="Seleziona la data di fine" value="@data.ToString("yyyy-MM-dd")">
             <label asp-for="DataAl"></label>
         </div>
     </div>
-    <div class="col-xl-3">
+    <div class="col-xl-3 mt-1">
         <div class="form-floating">
             <select id="idInputTipoMovimento" type="text" asp-for="TipoMovimento" class="form-select" placeholder="Seleziona un tipo per filtrare">
                 <option>Tutti</option>
@@ -30,10 +30,15 @@
             <label asp-for="TipoMovimento"></label>
         </div>
     </div>
-    <div class="col-xl-3">
-        <div class="form-floating">
-            <input id="idInputAzienda" asp-for="Azienda" class="form-control" placeholder="Seleziona un'azienda per filtrare">
+    <div class="col-xl-3 mt-1">
+        <div class="form-floating input-group">
+            <input id="idInputAzienda" type="text" asp-for="Azienda" class="form-control" placeholder="Seleziona l'azienda per filtrare" readonly>
             <label asp-for="Azienda"></label>
+            <div class="input-group-append">
+                <button class="btn btn-success dropdown-toggle" type="button" onclick="ShowDynamicViewAllAziende('/Azienda/GetAllAziende')" style="height: calc(3.5rem + 2px); border-start-start-radius:0; border-end-start-radius:0">
+                    Seleziona
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -44,3 +49,38 @@
         </label>
     </div>
 </div>
+
+<script type="text/javascript">
+    var callbackGenericTable;  //viene definita in GenericTable
+    var checkOpenGenericTable = "";
+
+    function ShowDynamicViewAllAziende(url) {
+        checkOpenGenericTable = "Aziende";
+        $("#Div_DynamicView_ContainerAllAziende").load(url);
+        $("#Div_DynamicViewAllAziende").show();
+        dispatchOpenPopupCustomEvent('ViewAllAziende');
+        if (callbackGenericTable !== undefined) {
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllAziende), false);
+        }
+    }
+    document.addEventListener('openPopup_CustomEvent', (event) => {
+        if (event.Sender === "GenericTable") {
+            if (checkOpenGenericTable == "Aziende") {
+                call_setContainerGenericTableAziende();
+            }
+        }
+    }, false)
+
+    function call_setContainerGenericTableAziende() {
+        setContainerGenericTable('Div_DynamicViewAllAziende', 'Div_DynamicView_ContainerAllAziende', 'ViewAllAziende', callbackGetValueSelectedAziende);
+    }
+    function callbackGetValueSelectedAziende(selectedValues) {
+        setSelectedValuesAziende(selectedValues);
+    }
+    function setSelectedValuesAziende(values) {
+        if (values == null) {
+            return false;
+        }
+        $("#idInputAzienda").val(values.PartitaIVA);
+    }
+</script>

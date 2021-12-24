@@ -1,6 +1,9 @@
-﻿
+﻿@using ContabilitaWeb.Models
+@model List<Movimento>
+
+
 @{
-    var totale = 0;
+    var totale = 0M;
 }
 
 <table class="table table-striped table-hover">
@@ -14,15 +17,28 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model != null) {
-            foreach(var azienda in Model) {
-            <tr>
-                <th scope="row">@azienda.PartitaIva</th>
-                <td>@azienda.RagioneSociale</td>
-                <td>@azienda.Telefono</td>
-                <td>@azienda.Email</td>
-                <td>@azienda.Iban</td>
-            </tr>
+        @if (Model != null)
+        {
+            foreach (var movimento in Model)
+            {
+                <tr>
+                    <td>@movimento.Data.ToString("dd/MM/yyyy")</td>
+                    <td>@movimento.RagioneSociale</td>
+                    <td>@movimento.Tipo</td>
+                    <td>@movimento.Numero</td>
+                    <td>@movimento.Importo</td>
+                    @switch (@movimento.Tipo)
+                    {
+                        case "Fattura":
+                            totale -= movimento.Importo;
+                            break;
+                        case "Pagamento":
+                        case "Nota di credito":
+                        default:
+                            totale += movimento.Importo;
+                            break;
+                    }
+                </tr>
             }
         }
     </tbody>

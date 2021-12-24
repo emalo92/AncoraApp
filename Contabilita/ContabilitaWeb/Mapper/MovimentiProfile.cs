@@ -9,6 +9,9 @@ namespace ContabilitaWeb.Mapper
         {
             CreateMap<Infrastructure.Models.InputRicercaMovimenti, InputRicercaMovimenti>();
             CreateMap<InputRicercaMovimenti, Infrastructure.Models.InputRicercaMovimenti>();
+
+            CreateMap<Infrastructure.Models.Movimento, Movimento>();
+            CreateMap<Movimento, Infrastructure.Models.Movimento>();
         }
     }
 }

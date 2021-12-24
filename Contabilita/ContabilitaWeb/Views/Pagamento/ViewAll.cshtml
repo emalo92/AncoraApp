@@ -20,7 +20,7 @@
         foreach(var pagamento in Model) {
             <tr>
                 <th scope="row">@pagamento.Modalita</th>
-                <td>@pagamento.Data.Date</td>
+                <td>@pagamento.Data.ToString("dd/MM/yyyy")</td>
                 <td>@pagamento.Importo</td>
                 <td>@pagamento.NumAssegnoBonifico</td>
                 <td>@pagamento.Descrizione</td>
