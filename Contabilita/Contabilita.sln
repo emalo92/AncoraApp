@@ -16,6 +16,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL Utility", "SQL Utility", "{42A51E32-C1B9-457A-A2AD-9836E4B960E6}"
+	ProjectSection(SolutionItems) = preProject
+		ScriptCreateAzienda.sql = ScriptCreateAzienda.sql
+		ScriptCreateDB.sql = ScriptCreateDB.sql
+		ScriptCreateFattura.sql = ScriptCreateFattura.sql
+		ScriptCreatePagamento.sql = ScriptCreatePagamento.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

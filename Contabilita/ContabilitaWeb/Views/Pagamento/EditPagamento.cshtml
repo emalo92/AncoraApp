@@ -7,21 +7,12 @@
     <div class="p-2 bg-light shadow">
         <div id="divPanelCheck" class="row mt-3 mb-3">
             <div class="col-6">
-              <div class="input-group">
-               <input id="idInputAziendacheck" type="text" class="form-control mr-2" placeholder="Seleziona l'azienda"readonly>
-                   <button class="btn btn-success dropdown-toggle" type="button" onclick="ShowDynamicViewAllAziendeOfPagamento('/Azienda/GetAllAziende')" >
-                           Seleziona
-                   </button>
-               <input id="idInputDataCheck" type="date" class="form-control" placeholder="Seleziona la data del pagamento">
-                   <div class="input-group-append">
-                   <button class="btn btn-success" type="button" onclick="VerificaPagamento()"><i class="fa fa-check"></i> Verifica</button>
-                   </div>
-              </div>  
-            </div>
-            <div class="col-6">
-                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllPagamenti('/Pagamento/GetAllPagamenti')">
-                            Seleziona pagamento
-                        </button>
+                <div class="input-group">
+                    <input id="idInputAziendacheck" type="text" class="form-control mr-2" placeholder="Seleziona il pagamento da modificare" readonly>
+                    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllPagamenti('/Pagamento/GetAllPagamenti')">
+                        Seleziona pagamento
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -35,30 +26,28 @@
 <div id="Div_DynamicViewAllPagamenti" class="positionFixed" style="display:none">
     <div class="finestraPopup">
         <div id="Div_DynamicView_ContainerAllPagamenti">
-
         </div>
     </div>
 </div>
 <div id="Div_DynamicViewAllAziende" class="positionFixed" style="display:none">
     <div class="finestraPopup">
         <div id="Div_DynamicView_ContainerAllAziende">
-
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
     function RegistraPagamento() {
-        
+
         var data = $("#idInputData").val();
         var azienda = $("#idInputAzienda").val();
-        
-        
+
+
         if (data == null || data == "" || data == undefined) {
             myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
             return;
         }
-        
+
         if (azienda == null || azienda == "" || azienda == undefined) {
             myCustomModalAlertShow("Dati incompleti", "L'azienda è obbligatoria");
             return;
@@ -83,10 +72,10 @@
     }
 
     function VerificaPagamento() {
-        
+
         var azienda = $('#idInputAziendacheck').val();
         var data = $('#idInputDataCheck').val();
-        
+
         if (azienda == null || azienda == "" || azienda == undefined) {
             myCustomModalAlertShow("Dati incompleti", "Inserire l'azienda da verificare");
             return;
@@ -130,7 +119,7 @@
             }
         });
     }
-    
+
 
     var callbackGenericTable;  //viene definita in GenericTable
     var checkOpenGenericTable = "";
@@ -172,13 +161,13 @@
         $('#divPanelForm').css('display', 'block');
         $('#btnEliminaPagamento').css('display', 'inline');
     }
-    function ShowDynamicViewAllAziendeOfPagamento(url) {
+    function ShowDynamicViewAllAziende(url) {
         checkOpenGenericTable = "Aziende";
         $("#Div_DynamicView_ContainerAllAziende").load(url);
         $("#Div_DynamicViewAllAziende").show();
         dispatchOpenPopupCustomEvent('ViewAllAziende');
         if (callbackGenericTable !== undefined) {
-            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllAziendeOfPagamento), false);
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllAziende), false);
         }
     }
     document.addEventListener('openPopup_CustomEvent', (event) => {
@@ -200,6 +189,6 @@
             return false;
         }
         $("#idInputAziendacheck").val(values.PartitaIVA);
-        
+
     }
 </script>

@@ -50,30 +50,30 @@ namespace Infrastructure.Dal
                     if (pagination.ParametriRicerca.ContainsKey("PartitaIVA"))
                     {
                         filtro = pagination.ParametriRicerca["PartitaIVA"];
-                        aziende = aziende.Where(f => f.PartitaIva.Contains(filtro));
+                        aziende = aziende.Where(f => f.PartitaIva.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
                     if (pagination.ParametriRicerca.ContainsKey("RagioneSociale"))
                     {
                         filtro = pagination.ParametriRicerca["RagioneSociale"];
-                        aziende = aziende.Where(f => f.RagioneSociale.Contains(filtro));
+                        aziende = aziende.Where(f => f.RagioneSociale != null && f.RagioneSociale.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
                     if (pagination.ParametriRicerca.ContainsKey("Email"))
                     {
                         filtro = pagination.ParametriRicerca["Email"];
-                        aziende = aziende.Where(f => f.Email.Contains(filtro));
+                        aziende = aziende.Where(f => f.Email != null && f.Email.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
                     if (pagination.ParametriRicerca.ContainsKey("Telefono"))
                     {
                         filtro = pagination.ParametriRicerca["Telefono"];
-                        aziende = aziende.Where(f => f.Telefono.Contains(filtro));
+                        aziende = aziende.Where(f => f.Telefono != null && f.Telefono.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
                     if (pagination.ParametriRicerca.ContainsKey("Iban"))
                     {
                         filtro = pagination.ParametriRicerca["Iban"];
-                        aziende = aziende.Where(f => f.Iban.Contains(filtro));
+                        aziende = aziende.Where(f => f.Iban != null && f.Iban.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
 
-                    pagination.TotalItems = aziende.Count();
+                    pagination.TotalItems = aziende == null ? 0 : aziende.Count();
                     if (pagination.IsPaginated)
                     {
                         var skip = (pagination.CurrentPage - 1) * pagination.ItemsPerPage;

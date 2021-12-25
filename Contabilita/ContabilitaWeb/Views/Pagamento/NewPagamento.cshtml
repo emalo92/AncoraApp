@@ -51,13 +51,13 @@
     var callbackGenericTable;  //viene definita in GenericTable
     var checkOpenGenericTable = "";
 
-    function ShowDynamicViewAllAziendeOfPagamento(url) {
+    function ShowDynamicViewAllAziende(url) {
         checkOpenGenericTable = "Aziende";
         $("#Div_DynamicView_ContainerAllAziende").load(url);
         $("#Div_DynamicViewAllAziende").show();
         dispatchOpenPopupCustomEvent('ViewAllAziende');
         if (callbackGenericTable !== undefined) {
-            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllAziendeOfPagamento), false);
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllAziende), false);
         }
     }
     document.addEventListener('openPopup_CustomEvent', (event) => {

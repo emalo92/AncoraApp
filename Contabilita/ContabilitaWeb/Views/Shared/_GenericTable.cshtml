@@ -12,7 +12,7 @@
         pagination.IsPaginated = false;
     }
 
-    var urlToRefreshPage = "/" + pagination.Route.Area + "/" + pagination.Route.Controller + "/" + pagination.Route.Action + "?";
+    var urlToRefreshPage = "/" + pagination.Route.Controller + "/" + pagination.Route.Action + "?";
     var classSizeModal = ViewBag.SizeModal;
     var styleMaxWidth = "";
     if(classSizeModal == "modal-ultraxl")
