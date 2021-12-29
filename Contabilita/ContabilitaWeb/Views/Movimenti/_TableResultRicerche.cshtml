@@ -26,7 +26,7 @@
                     <td>@movimento.RagioneSociale</td>
                     <td>@movimento.Tipo</td>
                     <td>@movimento.Numero</td>
-                    <td>@movimento.Importo</td>
+                    <td>@movimento.Importo &euro;</td>
                     @switch (@movimento.Tipo)
                     {
                         case "Fattura":
@@ -48,7 +48,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td class="fw-bold">Saldo: @totale</td>
+            <td class="fw-bold">Saldo: @totale &euro;</td>
         </tr>
     </tfoot>
 </table>
