@@ -22,5 +22,6 @@ namespace ContabilitaWeb.Models
 
         [Display(Name ="Azienda")]
         public string Azienda { get; set; } = null!;
+        public virtual Azienda AziendaNavigation { get; set; } = null!;
     }
 }

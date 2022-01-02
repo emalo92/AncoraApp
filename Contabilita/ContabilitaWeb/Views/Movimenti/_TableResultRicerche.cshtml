@@ -19,9 +19,18 @@
     <tbody>
         @if (Model != null)
         {
+            var coeff = -1;
+            var textClass = "";
+            var bgColor = "";
             foreach (var movimento in Model)
             {
-                <tr>
+                if (movimento.Tipo != "Fattura")
+                {
+                    coeff = 1;
+                }
+                textClass = movimento.Tipo == "Pagamento" ? "fw-bold" : "";
+                bgColor = movimento.Tipo == "Nota di credito" ? "#c5e4cd" : movimento.Tipo == "Pagamento" ? "#ffced4" : "";
+                <tr class="@textClass" style="background-color:@bgColor">
                     <td>@movimento.Data.ToString("dd/MM/yyyy")</td>
                     <td>@movimento.RagioneSociale</td>
                     <td>@movimento.Tipo</td>
@@ -40,6 +49,7 @@
                     }
                 </tr>
             }
+            totale *= coeff;
         }
     </tbody>
     <tfoot>

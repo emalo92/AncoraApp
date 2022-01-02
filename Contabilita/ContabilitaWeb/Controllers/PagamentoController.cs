@@ -181,7 +181,7 @@ namespace ContabilitaWeb.Controllers
                     genericTable.Elements.Add(new List<object>());
                     genericTable.Elements[i].Add(result.Result[i].Id);
                     genericTable.Elements[i].Add(result.Result[i].Modalita);
-                    genericTable.Elements[i].Add(result.Result[i].Data);
+                    genericTable.Elements[i].Add(result.Result[i].Data.ToString("dd/MM/yyyy"));
                     genericTable.Elements[i].Add(result.Result[i].Importo);
                     genericTable.Elements[i].Add(result.Result[i].NumAssegnoBonifico);
                     genericTable.Elements[i].Add(result.Result[i].Descrizione);

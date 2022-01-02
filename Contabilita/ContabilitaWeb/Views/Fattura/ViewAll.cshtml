@@ -17,12 +17,13 @@
     <tbody>
         @if (Model != null) {
         foreach(var fattura in Model) {
-            <tr>
+                var bgColor = fattura.Tipo == "Nota di credito" ? "#c5e4cd" : "";
+                <tr style="background-color:@bgColor">
                 <th scope="row">@fattura.Numero</th>
                 <td>@fattura.Data.ToString("dd/MM/yyyy")</td>
                 <td>@fattura.Importo &euro;</td>
                 <td>@fattura.Tipo</td>
-                <td>@fattura.Azienda</td>
+                <td>@fattura.AziendaNavigation.RagioneSociale</td>
             </tr>
             }
         }

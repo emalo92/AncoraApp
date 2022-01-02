@@ -182,7 +182,7 @@ namespace ContabilitaWeb.Controllers
                     genericTable.Elements.Add(new List<object>());
                     genericTable.Elements[i].Add(result.Result[i].Id);
                     genericTable.Elements[i].Add(result.Result[i].Numero);
-                    genericTable.Elements[i].Add(result.Result[i].Data);
+                    genericTable.Elements[i].Add(result.Result[i].Data.ToString("dd/MM/yyyy"));
                     genericTable.Elements[i].Add(result.Result[i].Importo);
                     genericTable.Elements[i].Add(result.Result[i].Tipo);
                     genericTable.Elements[i].Add(result.Result[i].Azienda);

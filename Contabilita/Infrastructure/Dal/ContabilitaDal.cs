@@ -113,7 +113,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("GetAllFattureAsync START");
             try
             {
-                var fatture = await _context.Fattura.AsNoTracking().ToListAsync();
+                var fatture = await _context.Fattura.AsNoTracking().Include(x => x.AziendaNavigation).ToListAsync();
                 return fatture;
             }
             catch (Exception ex)
@@ -199,7 +199,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("GetAllPagamentiAsync START");
             try
             {
-                var pagamenti = await _context.Pagamento.AsNoTracking().ToListAsync();
+                var pagamenti = await _context.Pagamento.AsNoTracking().Include(x => x.AziendaNavigation).ToListAsync();
                 return pagamenti;
             }
             catch (Exception ex)
