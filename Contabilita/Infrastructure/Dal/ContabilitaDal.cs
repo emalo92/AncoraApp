@@ -134,7 +134,7 @@ namespace Infrastructure.Dal
                     if (pagination.ParametriRicerca.ContainsKey("Numero"))
                     {
                         filtro = pagination.ParametriRicerca["Numero"];
-                        fatture = fatture.Where(f => f.Numero.Contains(filtro));
+                        fatture = fatture.Where(f => f.Numero.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
                     if (pagination.ParametriRicerca.ContainsKey("Data"))
                     {
@@ -145,17 +145,17 @@ namespace Infrastructure.Dal
                     if (pagination.ParametriRicerca.ContainsKey("Importo"))
                     {
                         filtro = pagination.ParametriRicerca["Importo"];
-                        fatture = fatture.Where(f => f.Importo.ToString().Contains(filtro));
+                        fatture = fatture.Where(f => f.Importo.ToString().Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
                     if (pagination.ParametriRicerca.ContainsKey("Tipo"))
                     {
                         filtro = pagination.ParametriRicerca["Tipo"];
-                        fatture = fatture.Where(f => f.Tipo.Contains(filtro));
+                        fatture = fatture.Where(f => f.Tipo != null && f.Tipo.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
                     if (pagination.ParametriRicerca.ContainsKey("Azienda"))
                     {
                         filtro = pagination.ParametriRicerca["Azienda"];
-                        fatture = fatture.Where(f => f.Azienda.Contains(filtro));
+                        fatture = fatture.Where(f => f.Azienda != null && f.Azienda.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
 
                     pagination.TotalItems = fatture.Count();
@@ -218,10 +218,10 @@ namespace Infrastructure.Dal
                 string filtro = "";
                 if (pagination != null)
                 {
-                    if (pagination.ParametriRicerca.ContainsKey("Modalita"))
+                    if(pagination.ParametriRicerca.ContainsKey("Modalita"))
                     {
                         filtro = pagination.ParametriRicerca["Modalita"];
-                        pagamenti = pagamenti.Where(f => f.Modalita.Contains(filtro));
+                        pagamenti = pagamenti.Where(f =>f.Modalita != null && f.Modalita.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
                     if (pagination.ParametriRicerca.ContainsKey("Data"))
                     {
@@ -229,25 +229,25 @@ namespace Infrastructure.Dal
                         pagamenti = pagamenti.Where(f => f.Data.ToString().Contains(filtro));
                     }
 
-                    if (pagination.ParametriRicerca.ContainsKey("Importo"))
+                    if(pagination.ParametriRicerca.ContainsKey("Importo"))
                     {
                         filtro = pagination.ParametriRicerca["Importo"];
-                        pagamenti = pagamenti.Where(f => f.Importo.ToString().Contains(filtro));
+                        pagamenti = pagamenti.Where(f => f.Importo.ToString().Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
                     if (pagination.ParametriRicerca.ContainsKey("NumAssegnoBonifico"))
                     {
                         filtro = pagination.ParametriRicerca["NumAssegnoBonifico"];
-                        pagamenti = pagamenti.Where(f => f.NumAssegnoBonifico.Contains(filtro));
+                        pagamenti = pagamenti.Where(f => f.NumAssegnoBonifico != null && f.NumAssegnoBonifico.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
                     if (pagination.ParametriRicerca.ContainsKey("Descrizione"))
                     {
                         filtro = pagination.ParametriRicerca["Descrizione"];
-                        pagamenti = pagamenti.Where(f => f.Descrizione.Contains(filtro));
+                        pagamenti = pagamenti.Where(f => f.Descrizione != null && f.Descrizione.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
                     if (pagination.ParametriRicerca.ContainsKey("Azienda"))
                     {
                         filtro = pagination.ParametriRicerca["Azienda"];
-                        pagamenti = pagamenti.Where(f => f.Azienda.Contains(filtro));
+                        pagamenti = pagamenti.Where(f => f.Azienda != null && f.Azienda.Contains(filtro, StringComparison.CurrentCultureIgnoreCase));
                     }
 
                     pagination.TotalItems = pagamenti.Count();
