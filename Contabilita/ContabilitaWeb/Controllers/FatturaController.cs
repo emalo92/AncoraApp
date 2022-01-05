@@ -159,7 +159,7 @@ namespace ContabilitaWeb.Controllers
             var genericTable = new Table()
             {
                 Title = "Elenco fatture",
-                ColumnNames = new List<string> { "Id", "Numero", "Data", "Importo", "Tipo", "Azienda" },
+                ColumnNames = new List<string> { "Id", "Numero", "Data", "Importo", "Tipo", "Azienda", "PIVA" },
                 Elements = new List<List<object>>()
             };
             try
@@ -187,6 +187,7 @@ namespace ContabilitaWeb.Controllers
                     genericTable.Elements[i].Add(result.Result[i].Data.ToString("dd/MM/yyyy"));
                     genericTable.Elements[i].Add(result.Result[i].Importo);
                     genericTable.Elements[i].Add(result.Result[i].Tipo);
+                    genericTable.Elements[i].Add(result.Result[i].AziendaNavigation.RagioneSociale);
                     genericTable.Elements[i].Add(result.Result[i].Azienda);
                 }
 

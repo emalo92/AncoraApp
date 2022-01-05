@@ -113,11 +113,11 @@ namespace ContabilitaWeb.Controllers
                 var pagamentoInfr = _mapper.Map<Infrastructure.Models.Pagamento>(pagamento);
                 var tipoCrudInfr = _mapper.Map<Infrastructure.Models.TipoCrud>(tipoCrud);
                 var result = await _contabilitaDal.SavePagamentoAsync(pagamentoInfr, tipoCrudInfr);
-                var message = tipoCrud == TipoCrud.update ? "modificata" : "eliminata";
+                var message = tipoCrud == TipoCrud.update ? "modificato" : "eliminato";
                 var responseSuccess = new Response
                 {
                     IsSuccess = true,
-                    Message = $"Fattura {message} correttamente"
+                    Message = $"Pagamento {message} correttamente"
                 };
                 ViewMessage.Show(this, responseSuccess);
                 return View();
@@ -158,7 +158,7 @@ namespace ContabilitaWeb.Controllers
             var genericTable = new Table()
             {
                 Title = "Elenco pagamenti",
-                ColumnNames = new List<string> { "Id", "Modalita", "Data", "Importo", "NumAssegnoBonifico","Descrizione", "Azienda" },
+                ColumnNames = new List<string> { "Id", "Modalita", "Data", "Importo", "NumAssegnoBonifico","Descrizione", "Azienda" , "PIVA"},
                 Elements = new List<List<object>>()
             };
             try
@@ -187,6 +187,7 @@ namespace ContabilitaWeb.Controllers
                     genericTable.Elements[i].Add(result.Result[i].Importo);
                     genericTable.Elements[i].Add(result.Result[i].NumAssegnoBonifico);
                     genericTable.Elements[i].Add(result.Result[i].Descrizione);
+                    genericTable.Elements[i].Add(result.Result[i].AziendaNavigation.RagioneSociale);
                     genericTable.Elements[i].Add(result.Result[i].Azienda);
                 }
 
