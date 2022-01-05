@@ -61,7 +61,7 @@ namespace ContabilitaWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> NewFatturaAsync(Fattura fattura)
+        public async Task<IActionResult> NewFatturaAsync(Fattura fattura, string importo)
         {
             _logger.LogInformation("NewFatturaAsync START");
             try
@@ -70,6 +70,7 @@ namespace ContabilitaWeb.Controllers
                 {
                     throw new Exception("fattura is null");
                 }
+                fattura.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
                 var fatturaInfr = _mapper.Map<Infrastructure.Models.Fattura>(fattura);
                 var result = await _contabilitaDal.SaveFatturaAsync(fatturaInfr, Infrastructure.Models.TipoCrud.insert);
                 var responseSuccess = new Response
@@ -100,7 +101,7 @@ namespace ContabilitaWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditFatturaAsync(Fattura fattura, TipoCrud tipoCrud)
+        public async Task<IActionResult> EditFatturaAsync(Fattura fattura, TipoCrud tipoCrud, string importo)
         {
             _logger.LogInformation("EditFatturaAsync START");
             try
@@ -109,6 +110,7 @@ namespace ContabilitaWeb.Controllers
                 {
                     throw new Exception("fattura is null");
                 }
+                fattura.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
                 var fatturaInfr = _mapper.Map<Infrastructure.Models.Fattura>(fattura);
                 var tipoCrudInfr = _mapper.Map<Infrastructure.Models.TipoCrud>(tipoCrud);
                 var result = await _contabilitaDal.SaveFatturaAsync(fatturaInfr, tipoCrudInfr);

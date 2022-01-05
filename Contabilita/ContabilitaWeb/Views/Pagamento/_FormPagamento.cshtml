@@ -1,6 +1,10 @@
 ﻿@using ContabilitaWeb.Models
 @model Pagamento
 
+@{
+    var importoValue = Model?.Importo != null ? Model.Importo : 0M;
+}
+
 <div class="row mt-3">
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
         <div class="form-floating mb-3">
@@ -23,7 +27,7 @@
 <div class="row">
     <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mt-3">
         <div class="form-floating">
-            <input id="idInputImporto" type="number" asp-for="Importo" class="form-control" placeholder="Importo">
+            <input id="idInputImporto" class="form-control" placeholder="Importo" value="@importoValue">
             <label asp-for="Importo"></label>
         </div>
     </div>

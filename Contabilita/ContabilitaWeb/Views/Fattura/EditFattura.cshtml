@@ -41,19 +41,32 @@
 <script type="text/javascript">
     function RegistraFattura() {
         var numero= $("#idInputNumero").val();
-        var data = $("#idInputData").val();
         var azienda = $("#idInputAzienda").val();
+        var data = $("#idInputData").val();
+        var importo = $("#idInputImporto").val();
         if (numero == null || numero == "" || numero == undefined) {
             myCustomModalAlertShow("Dati incompleti", "Il numero è obbligatorio");
             return;
         }
-        
+        if (numero.length > 20) {
+            myCustomModalAlertShow("Dati non validi", "il numero non può essere più lungo di 20 caratteri");
+            return;
+        }
+        if (data == null || data == "" || data == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "Il numero è obbligatorio");
+            return;
+        }
+        if (importo == null || importo == "" || importo == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "L'importo è obbligatoria");
+            return;
+        }
+
         if (azienda == null || azienda == "" || azienda == undefined) {
             myCustomModalAlertShow("Dati incompleti", "L'azienda è obbligatoria");
             return;
         }
         var form = $("#FormEditFattura");
-        form.attr("action", "EditFattura?tipoCrud=update")
+        form.attr("action", "EditFattura?tipoCrud=update&importo=" + importo)
         form.submit();
     }
 

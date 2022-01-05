@@ -38,6 +38,7 @@
             return;
         }
         var form = $("#FormNewPagamento");
+        form.attr("action", "NewPagamento?importo=" + importo);
         form.submit();
     }
 

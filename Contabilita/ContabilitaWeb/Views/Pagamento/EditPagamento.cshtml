@@ -41,7 +41,7 @@
 
         var data = $("#idInputData").val();
         var azienda = $("#idInputAzienda").val();
-
+        var importo = $("#idInputImporto").val();
 
         if (data == null || data == "" || data == undefined) {
             myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
@@ -52,8 +52,13 @@
             myCustomModalAlertShow("Dati incompleti", "L'azienda è obbligatoria");
             return;
         }
+
+        if (importo == null || importo == "" || importo == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "L'importo è obbligatoria");
+            return;
+        }
         var form = $("#FormEditPagamento");
-        form.attr("action", "EditPagamento?tipoCrud=update")
+        form.attr("action", "EditPagamento?tipoCrud=update&importo=" + importo)
         form.submit();
     }
 
@@ -63,7 +68,7 @@
 
     function DoSubmitData() {
         var form = $("#FormEditPagamento");
-        form.attr("action", "EditPagamento?tipoCrud=delete")
+        form.attr("action", "EditPagamento?tipoCrud=delete");
         form.submit();
     }
 

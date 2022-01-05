@@ -60,7 +60,7 @@ namespace ContabilitaWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> NewPagamentoAsync(Pagamento pagamento)
+        public async Task<IActionResult> NewPagamentoAsync(Pagamento pagamento, string importo)
         {
             _logger.LogInformation("NewPagamentoAsync START");
             try
@@ -69,6 +69,7 @@ namespace ContabilitaWeb.Controllers
                 {
                     throw new Exception("pagamento is null");
                 }
+                pagamento.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
                 var pagamentoInfr = _mapper.Map<Infrastructure.Models.Pagamento>(pagamento);
                 var result = await _contabilitaDal.SavePagamentoAsync(pagamentoInfr, Infrastructure.Models.TipoCrud.insert);
                 var responseSuccess = new Response
@@ -99,7 +100,7 @@ namespace ContabilitaWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditPagamentoAsync(Pagamento pagamento, TipoCrud tipoCrud)
+        public async Task<IActionResult> EditPagamentoAsync(Pagamento pagamento, TipoCrud tipoCrud, string importo)
         {
             _logger.LogInformation("EditPagamentoAsync START");
             try
@@ -108,6 +109,7 @@ namespace ContabilitaWeb.Controllers
                 {
                     throw new Exception("pagamento is null");
                 }
+                pagamento.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
                 var pagamentoInfr = _mapper.Map<Infrastructure.Models.Pagamento>(pagamento);
                 var tipoCrudInfr = _mapper.Map<Infrastructure.Models.TipoCrud>(tipoCrud);
                 var result = await _contabilitaDal.SavePagamentoAsync(pagamentoInfr, tipoCrudInfr);

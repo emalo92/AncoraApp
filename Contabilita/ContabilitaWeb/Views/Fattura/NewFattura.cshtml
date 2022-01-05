@@ -46,6 +46,7 @@
             return;
         }
         var form = $("#FormNewFattura");
+        form.attr("action", "NewFattura?importo=" + importo)
         form.submit();
     }
 
