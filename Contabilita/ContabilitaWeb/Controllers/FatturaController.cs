@@ -70,7 +70,10 @@ namespace ContabilitaWeb.Controllers
                 {
                     throw new Exception("fattura is null");
                 }
-                fattura.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+                if (importo != null)
+                {
+                    fattura.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+                }
                 var fatturaInfr = _mapper.Map<Infrastructure.Models.Fattura>(fattura);
                 var result = await _contabilitaDal.SaveFatturaAsync(fatturaInfr, Infrastructure.Models.TipoCrud.insert);
                 var responseSuccess = new Response
@@ -110,7 +113,10 @@ namespace ContabilitaWeb.Controllers
                 {
                     throw new Exception("fattura is null");
                 }
-                fattura.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+                if (importo != null)
+                {
+                    fattura.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+                }
                 var fatturaInfr = _mapper.Map<Infrastructure.Models.Fattura>(fattura);
                 var tipoCrudInfr = _mapper.Map<Infrastructure.Models.TipoCrud>(tipoCrud);
                 var result = await _contabilitaDal.SaveFatturaAsync(fatturaInfr, tipoCrudInfr);

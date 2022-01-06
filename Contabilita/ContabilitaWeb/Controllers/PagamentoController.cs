@@ -69,7 +69,10 @@ namespace ContabilitaWeb.Controllers
                 {
                     throw new Exception("pagamento is null");
                 }
-                pagamento.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+                if (importo != null)
+                {
+                    pagamento.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+                }
                 var pagamentoInfr = _mapper.Map<Infrastructure.Models.Pagamento>(pagamento);
                 var result = await _contabilitaDal.SavePagamentoAsync(pagamentoInfr, Infrastructure.Models.TipoCrud.insert);
                 var responseSuccess = new Response
@@ -109,7 +112,10 @@ namespace ContabilitaWeb.Controllers
                 {
                     throw new Exception("pagamento is null");
                 }
-                pagamento.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+                if (importo != null)
+                {
+                    pagamento.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+                }
                 var pagamentoInfr = _mapper.Map<Infrastructure.Models.Pagamento>(pagamento);
                 var tipoCrudInfr = _mapper.Map<Infrastructure.Models.TipoCrud>(tipoCrud);
                 var result = await _contabilitaDal.SavePagamentoAsync(pagamentoInfr, tipoCrudInfr);
@@ -124,7 +130,7 @@ namespace ContabilitaWeb.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("EditFatturaAsync: " + ex.Message);
+                _logger.LogError("EditPagamentoAsync: " + ex.Message);
                 var message = tipoCrud == TipoCrud.update ? "la modifica" : "l'eliminazione";
                 var responseFailed = new Response
                 {
