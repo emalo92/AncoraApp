@@ -65,3 +65,9 @@ function GetSafeDataValue(data) {
     var dataSafe = data.substring(6, 10) + "-" + data.substring(3, 5) + "-" + data.substring(0, 2);
     return dataSafe;
 }
+
+function DecodeEntities(encodedString) {
+    var textArea = document.createElement('textarea');
+    textArea.innerHTML = encodedString;
+    return textArea.value;
+}
