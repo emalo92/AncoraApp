@@ -1,6 +1,10 @@
 ﻿@using ContabilitaWeb.Models
 @model List<Fattura>
 
+@{
+        var itIT = System.Globalization.CultureInfo.CreateSpecificCulture("it-IT");
+}
+
 <h4>Visualizza</h4>
 
 
@@ -21,7 +25,7 @@
                 <tr style="background-color:@bgColor">
                 <th scope="row">@fattura.Numero</th>
                 <td>@fattura.Data.ToString("dd/MM/yyyy")</td>
-                <td>@fattura.Importo &euro;</td>
+                <td>@fattura.Importo.ToString("n", itIT) &euro;</td>
                 <td>@fattura.Tipo</td>
                 <td>@fattura.AziendaNavigation.RagioneSociale</td>
             </tr>

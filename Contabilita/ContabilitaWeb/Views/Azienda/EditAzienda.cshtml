@@ -98,8 +98,8 @@
                         $('#divPanelCheck').css('display', 'none');
                         $("#idInputID").val(response.result.id);
                         $("#idInputPIVA").val(response.result.partitaIva);
-                        $("#idInputRagioneSociale").val(response.result.ragioneSociale);
-                        $("#idInputEmail").val(response.result.email);
+                        $("#idInputRagioneSociale").val(DecodeEntities(response.result.ragioneSociale));
+                        $("#idInputEmail").val(DecodeEntities(response.result.email));
                         $("#idInputTelefono").val(response.result.telefono);
                         $("#idInputIban").val(response.result.iban);
                         $('#divPanelForm').css('display', 'block');
@@ -146,8 +146,8 @@
         $('#divPanelCheck').css('display', 'none');
         $("#idInputID").val(values.Id);
         $("#idInputPIVA").val(values.PartitaIVA);
-        $("#idInputRagioneSociale").val(values.RagioneSociale);
-        $("#idInputEmail").val(values.Email);
+        $("#idInputRagioneSociale").val(DecodeEntities(values.RagioneSociale));
+        $("#idInputEmail").val(DecodeEntities(values.Email));
         $("#idInputTelefono").val(values.Telefono);
         $("#idInputIban").val(values.Iban);
         $('#divPanelForm').css('display', 'block');
