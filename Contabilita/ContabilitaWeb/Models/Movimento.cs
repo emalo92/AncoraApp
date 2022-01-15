@@ -17,6 +17,7 @@ namespace ContabilitaWeb.Models
 
         [Display(Name = "Numero")]
         public string? Numero { get; set; }
+        public string? Descrizione { get; set; }
 
         [Display(Name = "Importo")]
         public decimal Importo { get; set; }

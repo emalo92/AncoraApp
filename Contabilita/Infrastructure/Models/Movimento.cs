@@ -13,6 +13,7 @@ namespace Infrastructure.Models
         public DateTime Data { get; set; }
         public string? Tipo { get; set; }
         public string? Numero { get; set; }
+        public string? Descrizione { get; set; }
         public decimal Importo { get; set; }
     }
 }

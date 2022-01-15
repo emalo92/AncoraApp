@@ -31,7 +31,7 @@
                 }
                 textClass = movimento.Tipo == "Pagamento" ? "fw-bold" : "";
                 bgColor = movimento.Tipo == "Nota di credito" ? "#c5e4cd" : movimento.Tipo == "Pagamento" ? "#ffced4" : "";
-                <tr class="@textClass" style="background-color:@bgColor">
+                <tr class="@textClass" style="background-color:@bgColor" title="@movimento.Descrizione" onclick="ShowDescription('@movimento.Descrizione')">
                     <td>@movimento.Data.ToString("dd/MM/yyyy")</td>
                     <td>@movimento.RagioneSociale</td>
                     <td>@movimento.Tipo</td>
@@ -63,3 +63,12 @@
         </tr>
     </tfoot>
 </table>
+
+<script type="text/javascript">
+    function ShowDescription(descrizione) {
+        if (descrizione == null || descrizione == "") {
+            return;
+        }
+        myCustomModalAlertShow("Descrizione", descrizione);
+    }
+</script>

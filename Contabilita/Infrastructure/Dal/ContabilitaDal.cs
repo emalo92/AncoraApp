@@ -28,7 +28,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("GetAllAziendeAsync START");
             try
             {
-                var aziende = await _context.Azienda.AsNoTracking().ToListAsync();
+                var aziende = await _context.Azienda.AsNoTracking().OrderBy(x => x.RagioneSociale).ToListAsync();
                 return aziende;
             }
             catch (Exception ex)
@@ -113,7 +113,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("GetAllFattureAsync START");
             try
             {
-                var fatture = await _context.Fattura.AsNoTracking().Include(x => x.AziendaNavigation).ToListAsync();
+                var fatture = await _context.Fattura.AsNoTracking().Include(x => x.AziendaNavigation).OrderByDescending(x =>x.Data).ToListAsync();
                 return fatture;
             }
             catch (Exception ex)
@@ -199,7 +199,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("GetAllPagamentiAsync START");
             try
             {
-                var pagamenti = await _context.Pagamento.AsNoTracking().Include(x => x.AziendaNavigation).ToListAsync();
+                var pagamenti = await _context.Pagamento.AsNoTracking().Include(x => x.AziendaNavigation).OrderByDescending(x => x.Data).ToListAsync();
                 return pagamenti;
             }
             catch (Exception ex)
@@ -460,18 +460,19 @@ namespace Infrastructure.Dal
             try
             {
                 var queryFatture = await (from fattura in _context.Fattura.AsNoTracking()
-                                   join azienda in _context.Azienda.AsNoTracking()
-                                   on fattura.Azienda equals azienda.PartitaIva
-                                   where fattura.Data >= input.DataDal && fattura.Data <= input.DataAl
-                                   select new Movimento
-                                   {
-                                       Data = fattura.Data,
-                                       Numero = fattura.Numero,
-                                       PartitaIva = fattura.Azienda,
-                                       RagioneSociale = azienda.RagioneSociale,
-                                       Tipo = fattura.Tipo.Trim(),
-                                       Importo = fattura.Importo,
-                                   }).ToListAsync();
+                                          join azienda in _context.Azienda.AsNoTracking()
+                                          on fattura.Azienda equals azienda.PartitaIva
+                                          where fattura.Data >= input.DataDal && fattura.Data <= input.DataAl
+                                          select new Movimento
+                                          {
+                                              Data = fattura.Data,
+                                              Numero = fattura.Numero,
+                                              PartitaIva = fattura.Azienda,
+                                              RagioneSociale = azienda.RagioneSociale,
+                                              Tipo = fattura.Tipo.Trim(),
+                                              Importo = fattura.Importo,
+                                              Descrizione = null
+                                          }).ToListAsync();
 
                 var queryPagamenti = await (from pagamento in _context.Pagamento.AsNoTracking()
                                      join azienda in _context.Azienda.AsNoTracking()
@@ -485,6 +486,7 @@ namespace Infrastructure.Dal
                                          RagioneSociale = azienda.RagioneSociale,
                                          Tipo = "Pagamento",
                                          Importo = pagamento.Importo,
+                                         Descrizione = pagamento.Descrizione
                                      }).ToListAsync();
 
                 var querySearch = queryFatture.Union(queryPagamenti);
@@ -498,7 +500,7 @@ namespace Infrastructure.Dal
                     querySearch = querySearch.Where(x => x.Tipo == input.TipoMovimento);
                 }
                 
-                return querySearch.ToList();
+                return querySearch.OrderBy(x => x.Data).ToList();
             }
             catch (Exception ex)
             {

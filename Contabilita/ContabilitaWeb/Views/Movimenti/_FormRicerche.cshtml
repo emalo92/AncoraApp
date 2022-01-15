@@ -5,6 +5,7 @@
     var data = Model?.DataAl == null ? DateTime.Now.ToString("yyyy-MM-dd") : Model.DataAl.ToString("yyyy-MM-dd");
     var dataDal = Model?.DataDal == null ? DateTime.Now.ToString("yyyy-MM-01") : Model.DataDal.ToString("yyyy-MM-dd");
     var nameAzienda = !string.IsNullOrEmpty(Model?.Azienda) && ViewBag.ResultList?[0] != null ? ViewBag.ResultList[0].RagioneSociale : "";
+    var pivaAzienda = !string.IsNullOrEmpty(Model?.Azienda) && ViewBag.ResultList?[0] != null ? ViewBag.ResultList[0].PartitaIva : "";
 }
 
 <div class="row mt-3">
@@ -33,7 +34,7 @@
     </div>
     <div class="col-xl-3 mt-1">
         <div class="form-floating input-group">
-            <input id="idInputAzienda" type="hidden" asp-for="Azienda" class="form-control">
+            <input id="idInputAzienda" type="hidden" asp-for="Azienda" class="form-control" value="@pivaAzienda">
             <input id="idInputAziendaRag" type="text" class="form-control" placeholder="Seleziona l'azienda per filtrare" value="@nameAzienda">
             <label asp-for="Azienda"></label>
             <div class="input-group-append">
