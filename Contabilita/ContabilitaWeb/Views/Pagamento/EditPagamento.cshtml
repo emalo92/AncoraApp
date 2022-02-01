@@ -54,7 +54,7 @@
         }
 
         if (importo == null || importo == "" || importo == undefined) {
-            myCustomModalAlertShow("Dati incompleti", "L'importo è obbligatoria");
+            myCustomModalAlertShow("Dati incompleti", "L'importo è obbligatorio");
             return;
         }
         var form = $("#FormEditPagamento");
@@ -162,6 +162,7 @@
         $("#idInputData").val(GetSafeDataValue(values.Data));
         $("#idInputImporto").val(values.Importo);
         $("#idInputDescrizione").val(values.Descrizione);
+        $("#idInputAziendaRag").val(DecodeEntities(values.Azienda));
         $("#idInputAzienda").val(values.PIVA);
         $('#divPanelForm').css('display', 'block');
         $('#btnEliminaPagamento').css('display', 'inline');
@@ -194,6 +195,6 @@
             return false;
         }
         $("#idInputAzienda").val(values.PartitaIVA);
-
+        $("#idInputAziendaRag").val(DecodeEntities(values.RagioneSociale));
     }
 </script>

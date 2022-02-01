@@ -38,7 +38,7 @@ namespace ContabilitaWeb.Controllers
                     ViewMessage.Show(this, responseFailed);
                     return View();
                 }
-                var resultWeb = _mapper.Map<List<Fattura>>(result);
+                var resultWeb = _mapper.Map<List<Fattura>>(result?.Take(50).ToList());
                 return View(resultWeb);
             }
             catch (Exception ex)
@@ -75,6 +75,18 @@ namespace ContabilitaWeb.Controllers
                     fattura.Importo = decimal.Parse(importo, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
                 }
                 var fatturaInfr = _mapper.Map<Infrastructure.Models.Fattura>(fattura);
+
+                var fatturaCheck = await _contabilitaDal.GetFatturaAsync(fatturaInfr);
+                if(fatturaCheck != null)
+                {
+                    var responseFailed = new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Fattura già inserita"
+                    };
+                    ViewMessage.Show(this, responseFailed);
+                    return View();
+                }
                 var result = await _contabilitaDal.SaveFatturaAsync(fatturaInfr, Infrastructure.Models.TipoCrud.insert);
                 var responseSuccess = new Response
                 {

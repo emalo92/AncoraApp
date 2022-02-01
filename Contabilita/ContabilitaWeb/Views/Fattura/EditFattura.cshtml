@@ -53,11 +53,11 @@
             return;
         }
         if (data == null || data == "" || data == undefined) {
-            myCustomModalAlertShow("Dati incompleti", "Il numero è obbligatorio");
+            myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
             return;
         }
         if (importo == null || importo == "" || importo == undefined) {
-            myCustomModalAlertShow("Dati incompleti", "L'importo è obbligatoria");
+            myCustomModalAlertShow("Dati incompleti", "L'importo è obbligatorio");
             return;
         }
 
@@ -171,6 +171,7 @@
         $("#idInputData").val(GetSafeDataValue(values.Data));
         $("#idInputImporto").val(values.Importo);
         $("#idInputTipo").val(values.Tipo);
+        $("#idInputAziendaRag").val(DecodeEntities(values.Azienda));
         $("#idInputAzienda").val(values.PIVA);
         $('#divPanelForm').css('display', 'block');
         $('#btnEliminaFattura').css('display', 'inline');
@@ -206,5 +207,6 @@
             return false;
         }
         $("#idInputAzienda").val(values.PartitaIVA);
+        $("#idInputAziendaRag").val(DecodeEntities(values.RagioneSociale));
     }
 </script>

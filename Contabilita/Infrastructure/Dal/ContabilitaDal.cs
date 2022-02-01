@@ -314,7 +314,7 @@ namespace Infrastructure.Dal
             }
         }
 
-        public async Task<Fattura> GetFatturaAsync(string numero,string azienda,DateTime? data ) 
+        public async Task<Fattura> GetFatturaAsync(string numero, string azienda, DateTime? data, string tipo) 
         {
             _logger.LogInformation("GetFatturaAsync START");
             try
@@ -330,7 +330,11 @@ namespace Infrastructure.Dal
                 }
                 if (data != null) 
                 {
-                    fatturaQuery = fatturaQuery.Where(Fattura => Fattura.Data == data);
+                    fatturaQuery = fatturaQuery.Where(Fattura => Fattura.Data.Year == data.Value.Year);
+                }
+                if (tipo != null)
+                {
+                    fatturaQuery = fatturaQuery.Where(Fattura => Fattura.Tipo == tipo);
                 }
                 var fattura = await fatturaQuery.FirstOrDefaultAsync();
                 if (fattura == null) 
@@ -343,6 +347,18 @@ namespace Infrastructure.Dal
             {
                 _logger.LogError("GetFatturaAsync: " + ex.Message);
                 throw;
+            }
+        }
+
+        public async Task<Fattura> GetFatturaAsync(Fattura fattura)
+        {
+            try
+            {
+                return await GetFatturaAsync(fattura.Numero, fattura.Azienda, fattura.Data, fattura.Tipo);
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
 
@@ -407,6 +423,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("SaveFatturaAsync START");
             try
             {
+                fattura.AziendaNavigation = null;
                 switch (tipoCrud)
                 {
                     case TipoCrud.insert:
@@ -433,6 +450,7 @@ namespace Infrastructure.Dal
             _logger.LogInformation("SavePagamentoAsync START");
             try
             {
+                pagamento.AziendaNavigation = null;
                 switch (tipoCrud)
                 {
                     case TipoCrud.insert:

@@ -39,7 +39,7 @@ namespace ContabilitaWeb.Controllers
                     ViewMessage.Show(this, responseFailed);
                     return View();
                 }
-                var resultWeb = _mapper.Map<List<Azienda>>(result);
+                var resultWeb = _mapper.Map<List<Azienda>>(result?.Take(50).ToList());
                 return View(resultWeb);
             }
             catch (Exception ex)
