@@ -1,6 +1,9 @@
 ﻿@using ContabilitaWeb.Models
+@using ContabilitaWeb.Models.Paginate
 @model List<Azienda>
-
+@{
+    var pagination = (Pagination)ViewBag.Pagination;
+}
 <h4>Visualizza</h4>
 
 
@@ -28,3 +31,9 @@
         }
     </tbody>
 </table>
+@if (pagination.IsPaginated)
+    {
+        <div>
+            <partial name="_PaginationBarPartial" model="@pagination" />
+        </div>
+    }

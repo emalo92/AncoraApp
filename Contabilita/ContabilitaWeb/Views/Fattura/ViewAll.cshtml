@@ -1,8 +1,10 @@
 ﻿@using ContabilitaWeb.Models
+@using ContabilitaWeb.Models.Paginate
 @model List<Fattura>
 
 @{
         var itIT = System.Globalization.CultureInfo.CreateSpecificCulture("it-IT");
+        var pagination = (Pagination)ViewBag.Pagination;
 }
 
 <h4>Visualizza</h4>
@@ -33,3 +35,9 @@
         }
     </tbody>
 </table>
+@if (pagination.IsPaginated)
+    {
+        <div>
+            <partial name="_PaginationBarPartial" model="@pagination" />
+        </div>
+    }

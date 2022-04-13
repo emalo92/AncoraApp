@@ -21,11 +21,21 @@ namespace ContabilitaWeb.Controllers
             _contabilitaDal = contabilitaDal;
             _mapper = mapper;
         }
-        public async Task<IActionResult> ViewAllAsync()
+        public async Task<IActionResult> ViewAllAsync(int page = 1)
         {
             _logger.LogInformation("ViewAllAsync START");
             try
             {
+                var pagination = new Pagination()
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = 30,
+                    ParametriRicerca = new Dictionary<string, dynamic>
+                    {
+                    },
+                    Route = new Route { Controller = "Pagamento", Action = "ViewAll" },
+                    IsPaginated = true
+                };
                 var result = await _contabilitaDal.GetAllPagamentiAsync();
                 if (result.Count == 0)
                 {
@@ -37,7 +47,10 @@ namespace ContabilitaWeb.Controllers
                     ViewMessage.Show(this, responseFailed);
                     return View();
                 }
-                var resultWeb = _mapper.Map<List<Pagamento>>(result?.Take(50).ToList());
+                pagination.TotalItems = result.Count;
+                pagination.TotalPages = (int)Math.Ceiling(pagination.TotalItems / (decimal)pagination.ItemsPerPage);
+                var resultWeb = _mapper.Map<List<Pagamento>>(result?.Skip(pagination.ItemsPerPage * (page - 1)).Take(pagination.ItemsPerPage).ToList());
+                ViewBag.Pagination = pagination;
                 return View(resultWeb);
             }
             catch (Exception ex)

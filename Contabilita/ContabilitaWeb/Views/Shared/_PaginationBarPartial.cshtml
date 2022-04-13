@@ -22,7 +22,8 @@
         queryString += elem.Key + "=" + elem.Value;
         count++;
     }
-    var url = "/" + Model.Route.Area + "/" + Model.Route.Controller + "/" + Model.Route.Action + "?" + queryString + "&page=";
+    var url = !string.IsNullOrEmpty(queryString) ? "/" + Model.Route.Controller + "/" + Model.Route.Action + "?" + queryString + "&page=" :
+    "/" + Model.Route.Controller + "/" + Model.Route.Action + "?page=";
     var javascriptMethod = string.IsNullOrEmpty(Model.JavascriptNavigationMethod) ? "" : Model.JavascriptNavigationMethod;
 }
 
