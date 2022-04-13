@@ -67,6 +67,31 @@ button.accept-policy {
     line-height: 60px;
 }
 
+.page-link {
+    color: #262626;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+
+.page-link:hover {
+    z-index: 2;
+    color: #0a58ca;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.page-link:focus {
+    z-index: 3;
+    color: #262626;
+    background-color: #e9ecef;
+}
+
+.page-item.active .page-link {
+    color: #fff;
+    background-color: #262626;
+    border-color: #262626;
+}
+
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 .bg-light {

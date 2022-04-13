@@ -32,7 +32,7 @@
   },
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "ContabilitaWeb/0.3.0": {
+      "ContabilitaWeb/0.3.1": {
         "dependencies": {
           "AutoMapper": "10.1.1",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "8.1.1",
@@ -4853,7 +4853,7 @@
     }
   },
   "libraries": {
-    "ContabilitaWeb/0.3.0": {
+    "ContabilitaWeb/0.3.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
