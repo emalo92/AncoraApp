@@ -31,7 +31,7 @@
         }
     </tbody>
 </table>
-@if (pagination.IsPaginated)
+@if (pagination != null && pagination.IsPaginated)
     {
         <div>
             <partial name="_PaginationBarPartial" model="@pagination" />

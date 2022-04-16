@@ -194,12 +194,12 @@ namespace Infrastructure.Dal
 
         }
 
-        public async Task<List<Pagamento>> GetAllPagamentiAsync()
+        public async Task<List<Pagamento>> GetAllPagamentiAsync(bool isRiscossione = false)
         {
             _logger.LogInformation("GetAllPagamentiAsync START");
             try
             {
-                var pagamenti = await _context.Pagamento.AsNoTracking().Include(x => x.AziendaNavigation).OrderByDescending(x => x.Data).ToListAsync();
+                var pagamenti = await _context.Pagamento.AsNoTracking().Include(x => x.AziendaNavigation).Where(x=> !isRiscossione ? x.Importo > 0 : x.Importo < 0).OrderByDescending(x => x.Data).ToListAsync();
                 return pagamenti;
             }
             catch (Exception ex)
@@ -209,12 +209,12 @@ namespace Infrastructure.Dal
             }
         }
 
-        public async Task<ResultPaginated<Pagamento>> GetAllPagamentiAsync(Pagination pagination) {
+        public async Task<ResultPaginated<Pagamento>> GetAllPagamentiAsync(Pagination pagination, bool isRiscossione = false) {
 
             _logger.LogInformation("GetAllPagamentiAsync START");
             try
             {
-                var pagamenti = (await GetAllPagamentiAsync()).AsQueryable();
+                var pagamenti = (await GetAllPagamentiAsync(isRiscossione)).AsQueryable();
                 string filtro = "";
                 if (pagination != null)
                 {

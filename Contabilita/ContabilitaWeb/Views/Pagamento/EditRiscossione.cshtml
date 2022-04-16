@@ -1,0 +1,200 @@
+﻿@using ContabilitaWeb.Models
+@model Pagamento
+
+<h3 class="text-center">Modifica Riscossione</h3>
+
+<section>
+    <div class="p-2 bg-light shadow">
+        <div id="divPanelCheck" class="row mt-3 mb-3">
+            <div class="col-6">
+                <div class="input-group">
+                    <input id="idInputAziendacheck" type="text" class="form-control mr-2" placeholder="Seleziona la riscossione da modificare" readonly>
+                    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="ShowDynamicViewAllPagamenti('/Pagamento/GetAllRiscossioni')">
+                        Seleziona riscossione
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="divPanelForm" class="p-2 bg-light shadow" style="display:none">
+        <form id="FormEditPagamento" method="post" action="EditRiscossione" autocomplete="off">
+            <partial name="_FormPagamento" model="Model" />
+        </form>
+    </div>
+</section>
+
+<div id="Div_DynamicViewAllPagamenti" class="positionFixed" style="display:none">
+    <div class="finestraPopup">
+        <div id="Div_DynamicView_ContainerAllPagamenti">
+        </div>
+    </div>
+</div>
+<div id="Div_DynamicViewAllAziende" class="positionFixed" style="display:none">
+    <div class="finestraPopup">
+        <div id="Div_DynamicView_ContainerAllAziende">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function RegistraPagamento() {
+
+        var data = $("#idInputData").val();
+        var azienda = $("#idInputAzienda").val();
+        var importo = $("#idInputImporto").val();
+
+        if (data == null || data == "" || data == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
+            return;
+        }
+
+        if (azienda == null || azienda == "" || azienda == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "L'azienda è obbligatoria");
+            return;
+        }
+
+        if (importo == null || importo == "" || importo == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "L'importo è obbligatorio");
+            return;
+        }
+        var form = $("#FormEditPagamento");
+        form.attr("action", "EditRiscossione?tipoCrud=update&importo=" + importo)
+        form.submit();
+    }
+
+    function EliminaPagamento() {
+        myCustomModalConfirmShow("Conferma", "Sei sicuro di voler eliminare questa Riscossione?", DoSubmitData, null, "Si", "No");
+    }
+
+    function DoSubmitData() {
+        var form = $("#FormEditPagamento");
+        form.attr("action", "EditRiscossione?tipoCrud=delete");
+        form.submit();
+    }
+
+    function Annulla() {
+        document.location.href='/Pagamento/EditRiscossione';
+    }
+
+    function VerificaPagamento() {
+
+        var azienda = $('#idInputAziendacheck').val();
+        var data = $('#idInputDataCheck').val();
+
+        if (azienda == null || azienda == "" || azienda == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "Inserire l'azienda da verificare");
+            return;
+        }
+        if (data == null || data == "" || data == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "Inserire la data da verificare");
+            return;
+        }
+        $.ajax({
+            type: "GET",
+            url: "/Pagamento/GetPagamento?azienda=" + azienda +"&data="+data+"&isRiscossione=true",
+            contentType: "application/json",
+            success: function (response) {
+                if (!response.isSucces) {
+                    if (response.message != null && response.message != undefined && response.message != '') {
+                        myCustomModalAlertShow("Dati non validi", response.message);
+                    }
+                    else {
+                        myCustomModalAlertShow("Dati non validi", response);
+                    }
+                }
+                else {
+                    if (response.result == null) {
+                        myCustomModalAlertShow("Attenzione", response.message);
+                    }
+                    else {
+                        $('#divPanelCheck').css('display', 'none');
+                        $("#idInputID").val(response.result.id);
+                        $("#idInputModalita").val(response.result.modalita);
+                        $("#idInputData").val(response.result.data);
+                        $("#idInputImporto").val(response.result.importo * -1);
+                        $("#idInputDescrizione").val(response.result.descrizione);
+                        $("#idInputAzienda").val(response.result.azienda);
+                        $('#divPanelForm').css('display', 'block');
+                        $('#btnEliminaFattura').css('display', 'inline');
+                    }
+                }
+            },
+            error(jqXHR, textStatus) {
+                myCustomModalAlertShow("Errore generico", textStatus);
+            }
+        });
+    }
+
+
+    var callbackGenericTable;  //viene definita in GenericTable
+    var checkOpenGenericTable = "";
+
+    function ShowDynamicViewAllPagamenti(url) {
+        checkOpenGenericTable = "Pagamenti";
+        $("#Div_DynamicView_ContainerAllPagamenti").load(url);
+        $("#Div_DynamicViewAllPagamenti").show();
+        dispatchOpenPopupCustomEvent('ViewAllPagamenti');
+        if (callbackGenericTable !== undefined) {
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllPagamenti), false);
+        }
+    }
+    document.addEventListener('openPopup_CustomEvent', (event) => {
+        if (event.Sender === "GenericTable") {
+            if (checkOpenGenericTable == "Pagamenti") {
+                call_setContainerGenericTablePagamenti();
+            }
+        }
+    }, false)
+
+    function call_setContainerGenericTablePagamenti() {
+        setContainerGenericTable('Div_DynamicViewAllPagamenti', 'Div_DynamicView_ContainerAllPagamenti', 'ViewAllPagamenti', callbackGetValueSelectedPagamenti);
+    }
+    function callbackGetValueSelectedPagamenti(selectedValues) {
+        setSelectedValuesPagamenti(selectedValues);
+    }
+    function setSelectedValuesPagamenti(values) {
+        if (values == null) {
+            return false;
+        }
+        $('#divPanelCheck').css('display', 'none');
+        $("#idInputID").val(values.Id);
+        $("#idInputModalita").val(values.Modalita);
+        $("#idInputData").val(GetSafeDataValue(values.Data));
+        $("#idInputImporto").val(values.Importo);
+        $("#idInputDescrizione").val(values.Descrizione);
+        $("#idInputAziendaRag").val(DecodeEntities(values.Azienda));
+        $("#idInputAzienda").val(values.PIVA);
+        $('#divPanelForm').css('display', 'block');
+        $('#btnEliminaPagamento').css('display', 'inline');
+    }
+    function ShowDynamicViewAllAziende(url) {
+        checkOpenGenericTable = "Aziende";
+        $("#Div_DynamicView_ContainerAllAziende").load(url);
+        $("#Div_DynamicViewAllAziende").show();
+        dispatchOpenPopupCustomEvent('ViewAllAziende');
+        if (callbackGenericTable !== undefined) {
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllAziende), false);
+        }
+    }
+    document.addEventListener('openPopup_CustomEvent', (event) => {
+        if (event.Sender === "GenericTable") {
+            if (checkOpenGenericTable == "Aziende") {
+                call_setContainerGenericTableAziende();
+            }
+        }
+    }, false)
+
+    function call_setContainerGenericTableAziende() {
+        setContainerGenericTable('Div_DynamicViewAllAziende', 'Div_DynamicView_ContainerAllAziende', 'ViewAllAziende', callbackGetValueSelectedAziende);
+    }
+    function callbackGetValueSelectedAziende(selectedValues) {
+        setSelectedValuesAziende(selectedValues);
+    }
+    function setSelectedValuesAziende(values) {
+        if (values == null) {
+            return false;
+        }
+        $("#idInputAzienda").val(values.PartitaIVA);
+        $("#idInputAziendaRag").val(DecodeEntities(values.RagioneSociale));
+    }
+</script>

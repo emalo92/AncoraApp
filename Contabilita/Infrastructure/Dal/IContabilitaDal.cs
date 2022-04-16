@@ -16,7 +16,7 @@ namespace Infrastructure.Dal
         /// <returns></returns>
         Task<List<Azienda>> GetAllAziendeAsync();
         Task<List<Fattura>> GetAllFattureAsync();
-        Task<List<Pagamento>> GetAllPagamentiAsync();
+        Task<List<Pagamento>> GetAllPagamentiAsync(bool isRiscossione = false);
         Task<Azienda> GetAziendaAsync(string partitaIva, string ragioneSociale = null);
         Task<Fattura> GetFatturaAsync(string numero,string azienda, DateTime? data = null, string tipo = null);
         Task<Fattura> GetFatturaAsync(Fattura fattura);
@@ -27,7 +27,7 @@ namespace Infrastructure.Dal
         Task<ResultPaginated<Azienda>> GetAllAziendeAsync(Pagination paginationInfr);
         Task<List<Movimento>> SearchAsync(InputRicercaMovimenti inputDal);
         Task<ResultPaginated<Fattura>> GetAllFattureAsync(Pagination paginationInfr);
-        Task<ResultPaginated<Pagamento>> GetAllPagamentiAsync(Pagination paginationInfr);
+        Task<ResultPaginated<Pagamento>> GetAllPagamentiAsync(Pagination paginationInfr, bool isRiscossione = false);
     }
 }
 

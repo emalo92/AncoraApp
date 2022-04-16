@@ -1,0 +1,85 @@
+﻿@using ContabilitaWeb.Models
+@model Pagamento
+
+<h3 class="text-center">Nuova Riscossione</h3>
+
+<section>
+    <div class="p-2 bg-light shadow">
+        <form id="FormNewPagamento" method="post" action="NewRiscossione" autocomplete="off">
+            <partial name="_FormPagamento" model="Model"/>
+        </form>
+    </div>
+</section>
+<div id="Div_DynamicViewAllAziende" class="positionFixed" style="display:none">
+    <div class="finestraPopup">
+        <div id="Div_DynamicView_ContainerAllAziende">
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function RegistraPagamento() {
+        var data = $("#idInputData").val();        
+        var importo = $("#idInputImporto").val();
+        var azienda = $("#idInputAzienda").val();
+        
+        if (data == null || data == "" || data == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "La data è obbligatoria");
+            return;
+        }
+        if (importo == null || importo == "" || importo == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "l'importo è obbligatorio");
+            return;
+        }
+        
+        if (azienda == null || azienda == "" || azienda == undefined) {
+            myCustomModalAlertShow("Dati incompleti", "L'azienda è obbligatoria");
+            return;
+        }
+        var form = $("#FormNewPagamento");
+        form.attr("action", "NewRiscossione?importo=" + importo);
+        form.submit();
+    }
+
+    function EliminaPagamento() {
+        return;
+    }
+
+    function Annulla() {
+        document.location.href='/Pagamento/NewRiscossione';
+    }
+    var callbackGenericTable;  //viene definita in GenericTable
+    var checkOpenGenericTable = "";
+
+    function ShowDynamicViewAllAziende(url) {
+        checkOpenGenericTable = "Aziende";
+        $("#Div_DynamicView_ContainerAllAziende").load(url);
+        $("#Div_DynamicViewAllAziende").show();
+        dispatchOpenPopupCustomEvent('ViewAllAziende');
+        if (callbackGenericTable !== undefined) {
+            document.removeEventListener('closedPopup_CustomEvent', callbackGenericTable(ShowDynamicViewAllAziende), false);
+        }
+    }
+    document.addEventListener('openPopup_CustomEvent', (event) => {
+        if (event.Sender === "GenericTable") {
+            if (checkOpenGenericTable == "Aziende") {
+                call_setContainerGenericTableAziende();
+            }
+        }
+    }, false)
+
+    function call_setContainerGenericTableAziende() {
+        setContainerGenericTable('Div_DynamicViewAllAziende', 'Div_DynamicView_ContainerAllAziende', 'ViewAllAziende', callbackGetValueSelectedAziende);
+    }
+    function callbackGetValueSelectedAziende(selectedValues) {
+        setSelectedValuesAziende(selectedValues);
+    }
+    function setSelectedValuesAziende(values) {
+        if (values == null) {
+            return false;
+        }
+        $("#idInputAzienda").val(values.PartitaIVA);
+        $("#idInputAziendaRag").val(DecodeEntities(values.RagioneSociale));
+    }
+</script>

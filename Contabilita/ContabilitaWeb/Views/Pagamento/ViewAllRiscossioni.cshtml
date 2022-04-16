@@ -27,7 +27,7 @@
             <tr>
                 <th scope="row">@pagamento.Modalita</th>
                 <td>@pagamento.Data.ToString("dd/MM/yyyy")</td>
-                <td>@pagamento.Importo.ToString("n", itIT) &euro;</td>
+                <td>@((pagamento.Importo * -1).ToString("n", itIT)) &euro;</td>
                 <td>@pagamento.NumAssegnoBonifico</td>
                 <td>@pagamento.Descrizione</td>
                 <td>@pagamento.AziendaNavigation.RagioneSociale</td>

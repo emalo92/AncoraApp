@@ -30,11 +30,18 @@
                     coeff = 1;
                 }
                 textClass = movimento.Tipo == "Pagamento" ? "fw-bold" : "";
-                bgColor = movimento.Tipo == "Nota di credito" ? "#c5e4cd" : movimento.Tipo == "Pagamento" ? "#ffced4" : "";
+                bgColor = movimento.Tipo == "Nota di credito" ? "#c5e4cd" : movimento.Tipo == "Pagamento" ? movimento.Importo < 0 ? "#add8e6" : "#ffced4" : "";
                 <tr class="@textClass" style="background-color:@bgColor" title="@movimento.Descrizione" onclick="ShowDescription('@movimento.Descrizione')">
                     <td>@movimento.Data.ToString("dd/MM/yyyy")</td>
                     <td>@movimento.RagioneSociale</td>
-                    <td>@movimento.Tipo</td>
+                    @if(movimento.Tipo == "Pagamento" && movimento.Importo < 0)
+                    {
+                        <td>Riscossione</td>
+                    }
+                    else
+                    {
+                         <td>@movimento.Tipo</td>
+                    }
                     <td>@movimento.Numero</td>
                     <td>@movimento.Importo.ToString("n", itIT) &euro;</td>
                     @switch (@movimento.Tipo)
