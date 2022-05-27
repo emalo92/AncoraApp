@@ -515,7 +515,14 @@ namespace Infrastructure.Dal
                 }
                 if ( !string.IsNullOrEmpty(input.TipoMovimento) && input.TipoMovimento != "Tutti")
                 {
-                    querySearch = querySearch.Where(x => x.Tipo == input.TipoMovimento);
+                    if(input.TipoMovimento != "Fatture e note di credito")
+                    {
+                        querySearch = querySearch.Where(x => x.Tipo == input.TipoMovimento);
+                    }
+                    else
+                    {
+                        querySearch = querySearch.Where(x => x.Tipo == "Fattura" || x.Tipo == "Nota di credito");
+                    }
                 }
                 
                 return querySearch.OrderBy(x => x.Data).ToList();
